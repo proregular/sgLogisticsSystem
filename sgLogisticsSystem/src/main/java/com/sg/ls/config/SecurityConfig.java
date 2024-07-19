@@ -1,4 +1,4 @@
-package com.sg.ls.config;
+/*package com.sg.ls.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,4 +39,8 @@ public class SecurityConfig {
 		
 		return http.build();
 	}
+}*/
+public class SecurityConfig {
+	
 }
+
