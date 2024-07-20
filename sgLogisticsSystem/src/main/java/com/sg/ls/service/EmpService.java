@@ -1,5 +1,6 @@
 package com.sg.ls.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.sg.ls.dto.EmpDTO;
@@ -13,10 +14,30 @@ public class EmpService {
 	
 	private final EmpRepository empRepository;
 	
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	public boolean login(EmpDTO empDTO) {
 		EmpDTO loginEmp = empRepository.login(empDTO);
 		
 		if(loginEmp != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean join(EmpDTO empDTO) {
+		boolean checkId = empRepository.idCheck(empDTO);
+		
+		// 아이디 체크 통과(중복 아이디 없음)
+		if(checkId) {
+			String cryptPw = bCryptPasswordEncoder.encode(empDTO.getEmpPw());	// 비밀번호 암호화
+			
+			empDTO.setEmpPw(cryptPw);
+			empDTO.setEmpRole("ROLE_ADMIN");
+			
+			empRepository.save(empDTO);
+			
 			return true;
 		} else {
 			return false;

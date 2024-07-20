@@ -15,4 +15,12 @@ public class EmpRepository {
 	public EmpDTO login(EmpDTO empDTO) {
 		return sql.selectOne("Emp.login", empDTO);
 	}
+	
+	public int save(EmpDTO empDTO) {
+		return sql.insert("Emp.join", empDTO);
+	}
+	
+	public boolean idCheck(EmpDTO empDTO) {
+		return sql.selectOne("Emp.idCheck", empDTO);
+	}
 }
