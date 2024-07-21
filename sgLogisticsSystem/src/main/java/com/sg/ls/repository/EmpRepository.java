@@ -17,7 +17,7 @@ public class EmpRepository {
 	}
 	
 	public int save(EmpDTO empDTO) {
-		return sql.insert("Emp.join", empDTO);
+		return sql.insert("Emp.save", empDTO);
 	}
 	
 	public boolean idCheck(EmpDTO empDTO) {

@@ -27,14 +27,18 @@ public class EmpService {
 	}
 	
 	public boolean join(EmpDTO empDTO) {
-		boolean checkId = empRepository.idCheck(empDTO);
+		boolean idExists = empRepository.idCheck(empDTO);
 		
+		System.out.println("result: " + idExists);
 		// 아이디 체크 통과(중복 아이디 없음)
-		if(checkId) {
+		if(!idExists) {
 			String cryptPw = bCryptPasswordEncoder.encode(empDTO.getEmpPw());	// 비밀번호 암호화
 			
 			empDTO.setEmpPw(cryptPw);
 			empDTO.setEmpRole("ROLE_ADMIN");
+			empDTO.setEmpNm("관리");
+			empDTO.setDeptCd("1000");
+			empDTO.setRankCd("1000");
 			
 			empRepository.save(empDTO);
 			

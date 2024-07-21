@@ -6,4 +6,13 @@
 	<select id="login" parameterType="emp" resultType="emp">
 		SELECT * FROM semp WHERE emp_id=#{empId} AND emp_pw=#{empPw}
 	</select>
+	
+	<insert id="save" parameterType="emp">
+		INSERT INTO semp(emp_id, emp_pw, emp_nm, emp_role, dept_cd, rank_cd)
+		VALUES (#{empId}, #{empPw}, #{empNm}, #{empRole}, #{deptCd}, #{rankCd})
+	</insert>
+	
+	<select id="idCheck" parameterType="emp" resultType="boolean">
+		SELECT EXISTS(SELECT * FROM semp WHERE emp_id=#{empId}) AS flag
+	</select>
 </mapper>
