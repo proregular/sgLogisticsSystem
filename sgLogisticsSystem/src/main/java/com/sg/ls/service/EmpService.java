@@ -15,7 +15,7 @@ public class EmpService {
 	private final EmpRepository empRepository;
 	
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+	/*
 	public boolean login(EmpDTO empDTO) {
 		EmpDTO loginEmp = empRepository.login(empDTO);
 		
@@ -24,7 +24,7 @@ public class EmpService {
 		} else {
 			return false;
 		}
-	}
+	}*/
 	
 	public boolean join(EmpDTO empDTO) {
 		boolean idExists = empRepository.idCheck(empDTO);

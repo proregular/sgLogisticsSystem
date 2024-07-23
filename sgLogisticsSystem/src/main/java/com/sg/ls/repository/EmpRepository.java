@@ -12,8 +12,8 @@ import lombok.RequiredArgsConstructor;
 public class EmpRepository {
 	private final SqlSessionTemplate sql;
 	
-	public EmpDTO login(EmpDTO empDTO) {
-		return sql.selectOne("Emp.login", empDTO);
+	public EmpDTO login(String id) {
+		return sql.selectOne("Emp.login", id);
 	}
 	
 	public int save(EmpDTO empDTO) {

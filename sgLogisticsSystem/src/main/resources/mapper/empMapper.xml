@@ -3,8 +3,8 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Emp">
-	<select id="login" parameterType="emp" resultType="emp">
-		SELECT * FROM semp WHERE emp_id=#{empId} AND emp_pw=#{empPw}
+	<select id="login" resultType="emp">
+		SELECT * FROM semp WHERE emp_id=#{id}
 	</select>
 	
 	<insert id="save" parameterType="emp">

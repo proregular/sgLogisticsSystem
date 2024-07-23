@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.sg.ls.dto.CustomUserDetails;
+import com.sg.ls.dto.EmpDTO;
 import com.sg.ls.repository.EmpRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,16 @@ public class CustomUserDetailService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return null;
+		
+		EmpDTO empData = empRepository.login(username);
+		
+		if(empData != null) {
+			System.out.println("성공");
+			return new CustomUserDetails(empData);
+		} else {
+			return null;
+		}
+		
 	}
 }
 

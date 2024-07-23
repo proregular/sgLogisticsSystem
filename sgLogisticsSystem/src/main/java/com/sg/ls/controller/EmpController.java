@@ -21,7 +21,7 @@ public class EmpController {
 	public String loginP() {
 		return "login";
 	}
-	
+	/*
 	@PostMapping("/loginProc")
 	public String loginProcess(@ModelAttribute EmpDTO empDTO, HttpSession session) {
 		boolean loginResult = empService.login(empDTO);
@@ -32,7 +32,8 @@ public class EmpController {
 		} else {
 			return "login";
 		}
-	}
+		
+	}*/
 	
 	@GetMapping("/join")
 	public String joinP() {
