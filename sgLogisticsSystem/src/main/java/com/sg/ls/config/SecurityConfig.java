@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.sg.ls.handler.LoginFailureHandler;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -31,6 +33,7 @@ public class SecurityConfig {
 		http
 				.formLogin((auth) -> auth.loginPage("/login")
 						.loginProcessingUrl("/loginProc")
+						.failureHandler(loginFailHandler())
 						.defaultSuccessUrl("/dashboard")
 						.permitAll()
 				);
@@ -49,5 +52,10 @@ public class SecurityConfig {
 		
 		return http.build();
 	}
+	
+	@Bean
+    public LoginFailureHandler loginFailHandler(){
+        return new LoginFailureHandler();
+    }
 }
 
