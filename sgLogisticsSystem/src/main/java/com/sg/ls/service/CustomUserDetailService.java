@@ -27,8 +27,8 @@ public class CustomUserDetailService implements UserDetailsService {
 			System.out.println("성공");
 			return new CustomUserDetails(empData);
 		} else {
-			return null;
-		}
+			throw new UsernameNotFoundException("사용자가 존재하지 않습니다.");
+		} 
 		
 	}
 }

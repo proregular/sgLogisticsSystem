@@ -2,6 +2,7 @@ package com.sg.ls.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,7 +25,8 @@ public class SecurityConfig {
 		
 		http
 				.authorizeHttpRequests((auth) -> auth
-						.requestMatchers("/videos/**", "/", "/login", "/loginProc", "/join", "/joinProc").permitAll()
+						.requestMatchers("loginProc").not().fullyAuthenticated()
+						.requestMatchers("/login", "/", "/videos/**", "/join", "/joinProc").permitAll()
 						.requestMatchers("/admin").hasRole("ADMIN")
 						.requestMatchers("/my/**").hasAnyRole("ADMIN", "USER")
 						.anyRequest().authenticated()
@@ -35,7 +37,6 @@ public class SecurityConfig {
 						.loginProcessingUrl("/loginProc")
 						.failureHandler(loginFailHandler())
 						.defaultSuccessUrl("/dashboard")
-						.permitAll()
 				);
 		
 		http
