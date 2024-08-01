@@ -19,7 +19,7 @@ public class EmpController {
 	private final EmpService empService;
 	private final SecurityService securityService;
 	
-	@GetMapping("/login")
+	@GetMapping(value = {"/", "/login"})
 	public String loginP() {
 		if(securityService.isAuthenticated()) {
 			return "redirect:/dashboard";
