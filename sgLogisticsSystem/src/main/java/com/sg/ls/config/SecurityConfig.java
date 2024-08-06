@@ -51,6 +51,13 @@ public class SecurityConfig {
 		http	.sessionManagement((auth) -> auth
 					.sessionFixation().changeSessionId());
 		
+		http
+				.logout(logout -> logout
+                        // 로그아웃 요청을 처리할 URL 설정
+                        .logoutUrl("/logout")
+                        // 로그아웃 성공 시 리다이렉트할 URL 설정
+                        .logoutSuccessUrl("/login"));
+		
 		return http.build();
 	}
 	
