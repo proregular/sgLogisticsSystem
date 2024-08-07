@@ -43,5 +43,10 @@ public class CustomUserDetails implements UserDetails {
 		return empDTO.getEmpId();
 	}
 	
+	public String getName() {
+		
+		return empDTO.getEmpNm();
+	}
+	
 
 }
