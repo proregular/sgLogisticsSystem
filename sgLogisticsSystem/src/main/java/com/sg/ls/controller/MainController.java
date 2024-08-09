@@ -15,4 +15,11 @@ public class MainController {
 		
 		return "dashboard";
 	}
+	
+	@GetMapping("/trade_mng")
+	public String tradeMngP(Model model, HttpServletRequest request) {
+		model.addAttribute("servletPath", request.getServletPath());
+		
+		return "trade_mng";
+	}
 }
