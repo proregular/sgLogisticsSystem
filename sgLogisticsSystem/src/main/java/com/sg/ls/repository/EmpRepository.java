@@ -23,4 +23,5 @@ public class EmpRepository {
 	public boolean idCheck(EmpDTO empDTO) {
 		return sql.selectOne("Emp.idCheck", empDTO);
 	}
+	
 }

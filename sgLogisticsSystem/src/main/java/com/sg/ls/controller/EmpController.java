@@ -17,16 +17,6 @@ import lombok.RequiredArgsConstructor;
 public class EmpController {
 
 	private final EmpService empService;
-	private final SecurityService securityService;
-	
-	@GetMapping(value = {"/", "/login"})
-	public String loginP() {
-		if(securityService.isAuthenticated()) {
-			return "redirect:/dashboard";
-		} else {
-			return "login";
-		}
-	}
 	
 	@GetMapping("/join")
 	public String joinP() {

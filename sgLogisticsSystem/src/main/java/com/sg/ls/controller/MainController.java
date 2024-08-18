@@ -4,10 +4,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.sg.ls.service.EmpService;
+import com.sg.ls.service.SecurityService;
+
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 public class MainController {
+	private final SecurityService securityService;
+	
+	@GetMapping(value = {"/", "/login"})
+	public String loginP() {
+		if(securityService.isAuthenticated()) {
+			return "redirect:/dashboard";
+		} else {
+			return "login";
+		}
+	}
 	
 	@GetMapping("/dashboard")
 	public String dashboardP(Model model, HttpServletRequest request) {
@@ -20,6 +35,6 @@ public class MainController {
 	public String tradeMngP(Model model, HttpServletRequest request) {
 		model.addAttribute("servletPath", request.getServletPath());
 		
-		return "trade_mng";
+		return "sysm/trade_mng";
 	}
 }
