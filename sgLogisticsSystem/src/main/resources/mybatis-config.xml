@@ -7,5 +7,7 @@
 	</settings>
 	<typeAliases>
 		<typeAlias type="com.sg.ls.dto.EmpDTO" alias="emp"></typeAlias>
+		<typeAlias type="com.sg.ls.dto.TradeDTO" alias="tradeDTO"></typeAlias>
+		<typeAlias type="com.sg.ls.vo.TradeVO" alias="tradeVO"></typeAlias>
 	</typeAliases>
 </configuration>

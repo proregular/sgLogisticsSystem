@@ -5,7 +5,7 @@ import java.util.Objects;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class TradeVo {
+public class TradeVO {
 	private final String trCd;
 	private final String trNm;
 	private final String ceoNm;
@@ -20,7 +20,7 @@ public class TradeVo {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final TradeVo tradeVo = (TradeVo) o;
+        final TradeVO tradeVo = (TradeVO) o;
         return trCd == tradeVo.trCd &&
         	trNm == tradeVo.trNm &&
         	ceoNm == tradeVo.ceoNm &&

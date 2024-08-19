@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Trade">
+	<!--<select id="login" resultType="emp">
+		SELECT * FROM semp WHERE emp_id=#{id}
+	</select>-->
+	
+	<insert id="insertTrade" parameterType="tradeVO">
+		INSERT INTO strade(tr_cd, tr_nm, addr, ceo_nm, upte, tr_num, tel, fax, jongmok)
+		VALUES (#{trCd}, #{trNm}, #{addr}, #{ceoNm}, #{upte}, #{trNum}, #{tel}, #{fax}, #{jongmok})
+	</insert>
+	
+	<!--<select id="idCheck" parameterType="emp" resultType="boolean">
+		SELECT EXISTS(SELECT * FROM semp WHERE emp_id=#{empId}) AS flag
+	</select>-->
+</mapper>
