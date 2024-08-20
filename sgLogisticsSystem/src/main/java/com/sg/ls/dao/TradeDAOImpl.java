@@ -1,12 +1,16 @@
 package com.sg.ls.dao;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.sg.ls.common.CommonUtils;
+import com.sg.ls.dto.TradeDTO;
 import com.sg.ls.exception.CustomDatabaseException;
 import com.sg.ls.vo.TradeVO;
 
@@ -19,7 +23,6 @@ public class TradeDAOImpl implements TradeDAO {
 	
 	@Override
 	public int insertTrade(TradeVO tradeVO) {
-		// TODO Auto-generated method stub
 		try {
 			return sql.insert("Trade.insertTrade", tradeVO);
 		} catch (DataAccessException e) {
@@ -28,5 +31,18 @@ public class TradeDAOImpl implements TradeDAO {
 			throw new CustomDatabaseException(message);
 		}
 	}
+
+	@Override
+	public List<TradeDTO> selectTradeByNameAndCode(Map<String, Object> param) {
+		try {
+			return sql.selectList("Trade.selectTradeByNameAndCode", param);
+		} catch (DataAccessException e) {
+			String message = CommonUtils.costomDBErrorMessage(e);
+			
+			throw new CustomDatabaseException(message);
+		}
+	}
+	
+	
 
 }

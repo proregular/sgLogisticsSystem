@@ -25,7 +25,8 @@
 							<div class="row mb-4">
 								<div class="col">
 									<div class="input-group">
-										<span class="input-group-text" id="label_trCd">거래처코드</span>
+										<span class="input-group-text" id="label_trCd"><span style="color: red;">*
+												&nbsp;</span>거래처코드</span>
 										<input id="trCd" type="text" class="form-control"
 											aria-label="Sizing example input" aria-describedby="label_trCd"
 											maxlength="4" placeholder="영문 또는 숫자 4자리">
@@ -34,7 +35,8 @@
 
 								<div class="col">
 									<div class="input-group">
-										<span class="input-group-text" id="label_trNm">거래처명</span>
+										<span class="input-group-text" id="label_trNm"><span style="color: red;">*
+												&nbsp;</span>거래처명</span>
 										<input id="trNm" type="text" class="form-control"
 											aria-label="Sizing example input" aria-describedby="label_trNm"
 											maxlength="30" placeholder="30자리 이하 거래처명">
@@ -47,7 +49,7 @@
 										<span class="input-group-text" id="label_trNum">사업자번호</span>
 										<input id="trNum" type="text" class="form-control"
 											aria-label="Sizing example input" aria-describedby="label_trNum"
-											pattern="\d*" maxlength="10" placeholder="'-'을 제외한 숫자 10자리">
+											pattern="^[0-9]+$" maxlength="10" placeholder="'-'을 제외한 숫자 10자리">
 									</div>
 								</div>
 
@@ -67,7 +69,7 @@
 										<input id="addr" type="text" class="form-control"
 											aria-label="Sizing example input" aria-describedby="label_addr"
 											maxlength="80" placeholder="80자리 이하 주소">
-										<button class="btn btn-outline-secondary" type="button" id="addr"><i
+										<button class="btn btn-outline-secondary" type="button" id="btn_find_addr"><i
 												class="fa-solid fa-magnifying-glass"></i>&nbsp; 검색</button>
 									</div>
 								</div>
@@ -98,8 +100,8 @@
 									<div class="input-group">
 										<span class="input-group-text" id="label_tel">전화번호</span>
 										<input id="tel" type="text" class="form-control"
-											aria-label="Sizing example input" aria-describedby="label_tel" pattern="\d*"
-											maxlength="11" placeholder="'-'을 제외한 숫자 11자리">
+											aria-label="Sizing example input" aria-describedby="label_tel"
+											pattern="^[0-9]+$" maxlength="11" placeholder="'-'을 제외한 숫자 11자리">
 									</div>
 								</div>
 
@@ -107,8 +109,8 @@
 									<div class="input-group mb-3">
 										<span class="input-group-text" id="label_fax">팩스</span>
 										<input id="fax" type="text" class="form-control"
-											aria-label="Sizing example input" aria-describedby="label_fax" pattern="\d*"
-											maxlength="11" placeholder="'-'을 제외한 숫자 11자리">
+											aria-label="Sizing example input" aria-describedby="label_fax"
+											pattern="^[0-9]+$" maxlength="11" placeholder="'-'을 제외한 숫자 11자리">
 									</div>
 								</div>
 							</div>
@@ -152,7 +154,7 @@
 				</div>
 
 				<div class="col" style="margin-left:auto;">
-					<button type="submit" class="btn btn-outline-secondary btn-sm"><i
+					<button type="button" id="btn_srch" class="btn btn-outline-secondary btn-sm"><i
 							class="fa-solid fa-magnifying-glass"></i>&nbsp; 조회</button>
 				</div>
 			</div>
@@ -160,7 +162,7 @@
 				<div class="col">
 					<div id="grid"></div>
 				</div>
-				<div class="col">
+				<div id="edit_wrap" class="col invisible">
 					<div class="row mb-4 justify-content-end">
 						<div class="col-auto">
 							<button type="button" class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i>&nbsp;
@@ -171,16 +173,17 @@
 						<div class="col">
 							<div class="input-group">
 								<span class="input-group-text">거래처코드</span>
-								<input id="tr_cd" type="text" class="form-control" aria-label="Sizing example input"
-									aria-describedby="tr_cd" maxlength="4" placeholder="영문 또는 숫자 4자리" disabled readonly>
+								<input id="e_trCd" type="text" class="form-control" aria-label="Sizing example input"
+									aria-describedby="e_trCd" maxlength="4" placeholder="영문 또는 숫자 4자리" disabled
+									readonly>
 							</div>
 						</div>
 
 						<div class="col">
 							<div class="input-group">
 								<span class="input-group-text">거래처명</span>
-								<input id="tr_nm" type="text" class="form-control" aria-label="Sizing example input"
-									aria-describedby="tr_nm" maxlength="30" placeholder="30자리 이하 거래처명">
+								<input id="e_trNm" type="text" class="form-control" aria-label="Sizing example input"
+									aria-describedby="e_trNm" maxlength="30" placeholder="30자리 이하 거래처명">
 							</div>
 						</div>
 					</div>
@@ -188,16 +191,17 @@
 						<div class="col-7">
 							<div class="input-group">
 								<span class="input-group-text">사업자번호</span>
-								<input id="addr" type="text" class="form-control" aria-label="Sizing example input"
-									aria-describedby="addr" pattern="\d*" maxlength="10" placeholder="'-'을 제외한 숫자 10자리">
+								<input id="e_trNum" type="text" class="form-control" aria-label="Sizing example input"
+									aria-describedby="e_trNum" pattern="\d*" maxlength="10"
+									placeholder="'-'을 제외한 숫자 10자리">
 							</div>
 						</div>
 
 						<div class="col-5">
 							<div class="input-group">
 								<span class="input-group-text">대표자명</span>
-								<input id="tr_cd" type="text" class="form-control" aria-label="Sizing example input"
-									aria-describedby="tr_cd" maxlength="10" placeholder="10자리 이하 대표자명">
+								<input id="e_ceoNm" type="text" class="form-control" aria-label="Sizing example input"
+									aria-describedby="e_ceoNm" maxlength="10" placeholder="10자리 이하 대표자명">
 							</div>
 						</div>
 					</div>
@@ -205,9 +209,9 @@
 						<div class="col">
 							<div class="input-group">
 								<span class="input-group-text">주소</span>
-								<input id="addr" type="text" class="form-control" aria-label="Sizing example input"
-									aria-describedby="addr" maxlength="80" placeholder="80자리 이하 주소">
-								<button class="btn btn-outline-secondary" type="button" id="addr"><i
+								<input id="e_addr" type="text" class="form-control" aria-label="Sizing example input"
+									aria-describedby="e_addr" maxlength="80" placeholder="80자리 이하 주소">
+								<button class="btn btn-outline-secondary" type="button" id="btn_e_find_addr"><i
 										class="fa-solid fa-magnifying-glass"></i>&nbsp; 검색</button>
 							</div>
 						</div>
@@ -217,16 +221,16 @@
 						<div class="col">
 							<div class="input-group">
 								<span class="input-group-text">업태</span>
-								<input id="addr" type="text" class="form-control" aria-label="Sizing example input"
-									aria-describedby="addr" maxlength="30" placeholder="30자리 이하 업태">
+								<input id="e_epte" type="text" class="form-control" aria-label="Sizing example input"
+									aria-describedby="e_epte" maxlength="30" placeholder="30자리 이하 업태">
 							</div>
 						</div>
 
 						<div class="col">
 							<div class="input-group">
-								<span class="input-group-text" id="tr_cd">종목</span>
-								<input type="text" class="form-control" aria-label="Sizing example input"
-									aria-describedby="tr_cd" maxlength="30" placeholder="30자리 이하 종목">
+								<span class="input-group-text">종목</span>
+								<input id="e_jongmok" type="text" class="form-control" aria-label="Sizing example input"
+									aria-describedby="e_jongmok" maxlength="30" placeholder="30자리 이하 종목">
 							</div>
 						</div>
 					</div>
@@ -235,16 +239,17 @@
 						<div class="col">
 							<div class="input-group">
 								<span class="input-group-text">전화번호</span>
-								<input id="addr" type="text" class="form-control" aria-label="Sizing example input"
-									aria-describedby="addr" pattern="\d*" maxlength="10" placeholder="'-'을 제외한 숫자 11자리">
+								<input id="e_tel" type="text" class="form-control" aria-label="Sizing example input"
+									aria-describedby="e_tel" pattern="\d*" maxlength="10"
+									placeholder="'-'을 제외한 숫자 11자리">
 							</div>
 						</div>
 
 						<div class="col">
 							<div class="input-group mb-3">
 								<span class="input-group-text">팩스</span>
-								<input id="tr_cd" type="text" class="form-control" aria-label="Sizing example input"
-									aria-describedby="tr_cd" pattern="\d*" maxlength="10"
+								<input id="e_fax" type="text" class="form-control" aria-label="Sizing example input"
+									aria-describedby="e_fax" pattern="\d*" maxlength="10"
 									placeholder="'-'을 제외한 숫자 11자리">
 							</div>
 						</div>
@@ -253,6 +258,7 @@
 			</div>
 	</main>
 	<th:block layout:fragment="script">
+		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 		<script type="text/javascript">
 			const Grid = tui.Grid;
@@ -264,30 +270,49 @@
 				bodyHeight: 550,
 				rowHeaders: ['checkbox'],
 				selectionUnit: 'row',
+				draggable: false,
 				columns: [
 					{
 						header: '거래처 코드',
-						name: 'tr_cd'
+						name: 'trCd'
 					},
 					{
 						header: '거래처 명',
-						name: 'tr_nm'
+						name: 'trNm'
 					},
 					{
 						header: '사업자 번호',
-						name: 'tr_num'
+						align: 'center',
+						name: 'trNum'
 					},
 					{
 						header: '대표자 명',
-						name: 'ceo_nm'
-					}
-				],
-				data: [
+						name: 'ceoNm'
+					},
 					{
-						tr_cd: 'Beautiful Lies',
-						tr_nm: 'Birdy',
-						tr_num: '2016.03.26',
-						ceo_nm: 'Pop'
+						header: '주소',
+						name: 'addr',
+						hidden: true
+					},
+					{
+						header: '업태',
+						name: 'upte',
+						hidden: true
+					},
+					{
+						header: '전화번호',
+						name: 'tel',
+						hidden: true
+					},
+					{
+						header: '팩스',
+						name: 'fax',
+						hidden: true
+					},
+					{
+						header: '종목',
+						name: 'jongmok',
+						hidden: true
 					}
 				]
 			});
@@ -315,12 +340,18 @@
 					url: "/api/trade",
 					contentType: 'application/json; charset=utf-8',
 					dataType: 'json',
+					async: false,
 					data: JSON.stringify(obj_trade),
 					success: function (result) {
+						console.log(result);
 						alert(result.massage);
 
 						if (result.resultCode == 'SUCCESS') {
+							$('#modal_trade_add').find('input').val("");
 							$('#btn_modal_close').trigger('click');
+						} else {
+							let errFieldId = "#" + result.data;
+							$(errFieldId).trigger('focus');
 						}
 					},
 					error: function (e) {
@@ -330,10 +361,120 @@
 				});
 			}
 
+			// 거래처 조회 Ajax 통신
+			function tradeListAjax(srchObj) {
+				let urlStr = "/api/trade";
+				let queryString = '';
+
+
+				if (Object.keys(srchObj).length > 0) {
+					queryString += '?';
+				}
+
+				let firstFg = true;
+
+				for (const key in srchObj) {
+					if (firstFg) {
+						queryString += key + '=' + srchObj[key];
+					} else {
+						queryString += '&' + key + '=' + srchObj[key];
+					}
+
+					firstFg = false;
+				}
+
+				urlStr = urlStr + queryString;
+				console.log(urlStr)
+				$.ajax({
+					type: 'GET',
+					url: urlStr,
+					contentType: 'application/json; charset=utf-8',
+					dataType: 'json',
+					async: false,
+					success: function (result) {
+						instance.resetData(result);
+
+						$('#edit_wrap').find('input').val('');
+
+						if (!($('#edit_wrap').hasClass('invisible'))) {
+							$('#edit_wrap').addClass('invisible');
+						}
+					},
+					error: function (e) {
+						console.log(e);
+						alert("Ajax 통신에 실패하였습니다.");
+					}
+				});
+			}
+
+			// 다음 주소 API함수
+			function execDaumPostcode(flag) {
+				new daum.Postcode({
+					oncomplete: function (data) {
+						let inputId = '';
+
+						if (flag == 'add') {
+							inputId = '#addr';
+						} else if (flag == 'update') {
+							inputId = '#e_addr';
+						}
+						// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+						var addr = ''; // 주소 변수
+
+						//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+						if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+							addr = data.roadAddress;
+						} else { // 사용자가 지번 주소를 선택했을 경우(J)
+							addr = data.jibunAddress;
+						}
+
+						// 우편번호와 주소 정보를 해당 필드에 넣는다.
+						$(inputId).val(addr);
+					}
+				}).open();
+			}
+
 			/*
 				이벤트 정의
 			*/
+
+			// 그리드 이벤트 정의
+
+			// 테이블에서 선택 영역을 변경한 경우
+			instance.on('click', (evt) => {
+				let rowData = instance.getRow(evt.rowKey);
+				let idPrefix = '#e_';
+
+				if ($(idPrefix + 'trCd').val() != rowData.trCd) {
+					for (key in rowData) {
+						$(idPrefix + key).val(rowData[key]);
+					}
+
+					if ($('#edit_wrap').hasClass('invisible')) {
+						$('#edit_wrap').removeClass('invisible');
+					}
+				}
+			});
+
 			$(function () {
+				// 모달 생성시
+				$('#exampleModal').on('shown.bs.modal', function (evt) {
+					let inputs = $('#modal_trade_add').find('input');
+					let id = "";
+
+					for (let i = 0; i < inputs.length; i++) {
+						id = '#' + $(inputs[i]).attr('id');
+
+						if ($(id).val() == '') {
+							$(id).trigger('focus');
+
+							break;
+						}
+					}
+				});
+
+				// 모달의 추가 버튼
 				$('#btn_add').on('click', function (evt) {
 					console.log(obj_trade);
 					// 거래처 객체 생성
@@ -349,7 +490,32 @@
 					console.log(obj_trade);
 					tradeAddAjax(obj_trade);
 				});
+
+				// 모달 주소 검색 버튼
+				$('#btn_find_addr').on('click', function (evt) {
+					execDaumPostcode('add');
+				});
+
+				// 모달 주소 검색 버튼
+				$('#btn_e_find_addr').on('click', function (evt) {
+					execDaumPostcode('update');
+				});
+
+				// 조회 버튼
+				$('#btn_srch').on('click', function (evt) {
+					let objSrch = {};
+					let srch_tr_nm = $('#srch_tr_nm').val();
+					let srch_tr_cd = $('#srch_tr_cd').val();
+
+					if (srch_tr_nm != '') objSrch.srch_tr_nm = srch_tr_nm;
+					if (srch_tr_cd != '') objSrch.srch_tr_cd = srch_tr_cd;
+
+					tradeListAjax(objSrch);
+				});
+
+
 			});
+
 
 		</script>
 	</th:block>

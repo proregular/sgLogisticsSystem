@@ -1,5 +1,9 @@
 package com.sg.ls.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +53,15 @@ public class TradeServiceImpl implements TradeService {
 			return responseDTO;
 		}
 		
+	}
+
+	@Override
+	public List<TradeDTO> findTradeByNameAndCode(String name, String code) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("name", name);
+		param.put("code", code);
+		
+		return tradeDAOImpl.selectTradeByNameAndCode(param);
 	}
 
 }
