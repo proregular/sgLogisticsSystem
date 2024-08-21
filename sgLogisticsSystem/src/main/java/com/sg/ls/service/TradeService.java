@@ -15,4 +15,8 @@ public interface TradeService {
 	ResponseDTO<String> addTrade(TradeDTO tradeDTO);
 	
 	List<TradeDTO> findTradeByNameAndCode(String name, String code);
+	
+	ResponseDTO<String> modifyTrade(TradeDTO tradeDTO);
+	
+	ResponseDTO<String> removeTrade(List<String> ids);
 }

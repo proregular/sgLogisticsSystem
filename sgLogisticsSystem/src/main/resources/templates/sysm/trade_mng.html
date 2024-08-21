@@ -133,7 +133,8 @@
 				<div class="d-flex me-2 gap-3">
 					<button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
 						data-bs-target="#exampleModal"><i class="fa-solid fa-circle-plus"></i>&nbsp; 추가</button>
-					<button type="button" class="btn btn-outline-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;
+					<button id="btn_remove" type="button" class="btn btn-outline-danger"><i
+							class="fa-solid fa-trash-can"></i>&nbsp;
 						삭제</button>
 				</div>
 			</div>
@@ -165,7 +166,8 @@
 				<div id="edit_wrap" class="col invisible">
 					<div class="row mb-4 justify-content-end">
 						<div class="col-auto">
-							<button type="button" class="btn btn-outline-primary"><i class="fa-solid fa-pen"></i>&nbsp;
+							<button id="btn_modify" type="button" class="btn btn-outline-primary"><i
+									class="fa-solid fa-pen"></i>&nbsp;
 								수정</button>
 						</div>
 					</div>
@@ -181,7 +183,8 @@
 
 						<div class="col">
 							<div class="input-group">
-								<span class="input-group-text">거래처명</span>
+								<span class="input-group-text"><span style="color: red;">*
+										&nbsp;</span>거래처명</span>
 								<input id="e_trNm" type="text" class="form-control" aria-label="Sizing example input"
 									aria-describedby="e_trNm" maxlength="30" placeholder="30자리 이하 거래처명">
 							</div>
@@ -221,8 +224,8 @@
 						<div class="col">
 							<div class="input-group">
 								<span class="input-group-text">업태</span>
-								<input id="e_epte" type="text" class="form-control" aria-label="Sizing example input"
-									aria-describedby="e_epte" maxlength="30" placeholder="30자리 이하 업태">
+								<input id="e_upte" type="text" class="form-control" aria-label="Sizing example input"
+									aria-describedby="e_upte" maxlength="30" placeholder="30자리 이하 업태">
 							</div>
 						</div>
 
@@ -240,7 +243,7 @@
 							<div class="input-group">
 								<span class="input-group-text">전화번호</span>
 								<input id="e_tel" type="text" class="form-control" aria-label="Sizing example input"
-									aria-describedby="e_tel" pattern="\d*" maxlength="10"
+									aria-describedby="e_tel" pattern="\d*" maxlength="11"
 									placeholder="'-'을 제외한 숫자 11자리">
 							</div>
 						</div>
@@ -249,7 +252,7 @@
 							<div class="input-group mb-3">
 								<span class="input-group-text">팩스</span>
 								<input id="e_fax" type="text" class="form-control" aria-label="Sizing example input"
-									aria-describedby="e_fax" pattern="\d*" maxlength="10"
+									aria-describedby="e_fax" pattern="\d*" maxlength="11"
 									placeholder="'-'을 제외한 숫자 11자리">
 							</div>
 						</div>
@@ -261,6 +264,7 @@
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 		<script type="text/javascript">
+			let objSrch = {};
 			const Grid = tui.Grid;
 
 			Grid.applyTheme('striped');
@@ -283,7 +287,10 @@
 					{
 						header: '사업자 번호',
 						align: 'center',
-						name: 'trNum'
+						name: 'trNum',
+						validation: {
+							dataType: "number"
+						}
 					},
 					{
 						header: '대표자 명',
@@ -302,12 +309,18 @@
 					{
 						header: '전화번호',
 						name: 'tel',
-						hidden: true
+						hidden: true,
+						validation: {
+							dataType: "number"
+						}
 					},
 					{
 						header: '팩스',
 						name: 'fax',
-						hidden: true
+						hidden: true,
+						validation: {
+							dataType: "number"
+						}
 					},
 					{
 						header: '종목',
@@ -335,6 +348,8 @@
 
 			// 거래처 추가 Ajax 통신
 			function tradeAddAjax(obj_trade) {
+				console.log('추가 데이터:');
+				console.log(obj_trade);
 				$.ajax({
 					type: 'POST',
 					url: "/api/trade",
@@ -349,6 +364,8 @@
 						if (result.resultCode == 'SUCCESS') {
 							$('#modal_trade_add').find('input').val("");
 							$('#btn_modal_close').trigger('click');
+
+							tradeListAjax(objSrch);
 						} else {
 							let errFieldId = "#" + result.data;
 							$(errFieldId).trigger('focus');
@@ -362,22 +379,22 @@
 			}
 
 			// 거래처 조회 Ajax 통신
-			function tradeListAjax(srchObj) {
+			function tradeListAjax(objSrch) {
 				let urlStr = "/api/trade";
 				let queryString = '';
 
 
-				if (Object.keys(srchObj).length > 0) {
+				if (Object.keys(objSrch).length > 0) {
 					queryString += '?';
 				}
 
 				let firstFg = true;
 
-				for (const key in srchObj) {
+				for (const key in objSrch) {
 					if (firstFg) {
-						queryString += key + '=' + srchObj[key];
+						queryString += key + '=' + objSrch[key];
 					} else {
-						queryString += '&' + key + '=' + srchObj[key];
+						queryString += '&' + key + '=' + objSrch[key];
 					}
 
 					firstFg = false;
@@ -392,12 +409,71 @@
 					dataType: 'json',
 					async: false,
 					success: function (result) {
+						console.log('조회 데이터: ');
+						console.log(result);
 						instance.resetData(result);
 
 						$('#edit_wrap').find('input').val('');
 
 						if (!($('#edit_wrap').hasClass('invisible'))) {
 							$('#edit_wrap').addClass('invisible');
+						}
+					},
+					error: function (e) {
+						console.log(e);
+						alert("Ajax 통신에 실패하였습니다.");
+					}
+				});
+			}
+
+			// 거래처 수정 Ajax 통신
+			function tradeModifyAjax(obj_trade) {
+				console.log('추가 데이터:');
+				console.log(obj_trade);
+				let urlStr = "/api/trade/" + obj_trade.trCd;
+				$.ajax({
+					type: 'PUT',
+					url: urlStr,
+					contentType: 'application/json; charset=utf-8',
+					dataType: 'json',
+					async: false,
+					data: JSON.stringify(obj_trade),
+					success: function (result) {
+						alert(result.massage);
+
+						if (result.resultCode == 'SUCCESS') {
+							tradeListAjax(objSrch);
+						} else {
+							let errFieldId = "#e_" + result.data;
+							$(errFieldId).trigger('focus');
+						}
+					},
+					error: function (e) {
+						console.log(e);
+						alert("Ajax 통신에 실패하였습니다.");
+					}
+				});
+			}
+
+			// 거래처 삭제 Ajax 통신
+			function tradeRemoveAjax(arr_ids) {
+				console.log('추가 데이터:');
+				console.log(obj_trade);
+				$.ajax({
+					type: 'POST',
+					url: "/api/trade/delete",
+					contentType: 'application/json; charset=utf-8',
+					dataType: 'json',
+					async: false,
+					data: JSON.stringify({
+						ids: arr_ids
+					}),
+					success: function (result) {
+						console.log(result);
+						alert(result.massage);
+
+						if (result.resultCode == 'SUCCESS') {
+							tradeListAjax(objSrch);
 						}
 					},
 					error: function (e) {
@@ -442,11 +518,19 @@
 			// 그리드 이벤트 정의
 
 			// 테이블에서 선택 영역을 변경한 경우
-			instance.on('click', (evt) => {
-				let rowData = instance.getRow(evt.rowKey);
-				let idPrefix = '#e_';
+			instance.on('focusChange', (evt) => {
+				console.log('포커스 변경');
+				console.log(evt);
+				if (evt.rowKey != evt.prevRowKey) {
+					console.log(evt);
+					console.log('행변경');
+					let idPrefix = '#e_';
+					let rowData = instance.getRow(evt.rowKey);
 
-				if ($(idPrefix + 'trCd').val() != rowData.trCd) {
+					if ($('#edit_wrap').hasClass('invisible')) {
+						$('#edit_wrap').removeClass('invisible');
+					}
+
 					for (key in rowData) {
 						$(idPrefix + key).val(rowData[key]);
 					}
@@ -454,6 +538,7 @@
 					if ($('#edit_wrap').hasClass('invisible')) {
 						$('#edit_wrap').removeClass('invisible');
 					}
+
 				}
 			});
 
@@ -503,7 +588,6 @@
 
 				// 조회 버튼
 				$('#btn_srch').on('click', function (evt) {
-					let objSrch = {};
 					let srch_tr_nm = $('#srch_tr_nm').val();
 					let srch_tr_cd = $('#srch_tr_cd').val();
 
@@ -511,6 +595,52 @@
 					if (srch_tr_cd != '') objSrch.srch_tr_cd = srch_tr_cd;
 
 					tradeListAjax(objSrch);
+				});
+
+				// 수정 버튼
+				$('#btn_modify').on('click', function (evt) {
+					let focusRowKey = instance.getFocusedCell().rowKey;
+					let idPrefix = '#e_';
+					let rowData = instance.getRow(focusRowKey);
+					let changeRowData = {};
+
+					for (key in obj_trade) {
+						if ($(idPrefix + key).val() != rowData[key]) {
+							changeRowData[key] = $(idPrefix + key).val();
+						}
+					}
+
+					if (Object.keys(changeRowData).length > 0) {
+
+						if (confirm("수정 사항을 저장하시겠습니까?")) {
+							Object.assign(rowData, changeRowData);
+
+							for (key in obj_trade) {
+								obj_trade[key] = rowData[key];
+							}
+
+							tradeModifyAjax(obj_trade);
+						}
+					} else {
+						alert('수정사항이 없습니다.');
+					}
+				});
+
+				// 삭제 버튼
+				$('#btn_remove').on('click', function (evt) {
+					let checkRows = instance.getCheckedRows();
+
+					if (checkRows.length > 0) {
+						let ids = [];
+
+						for (let i = 0; i < checkRows.length; i++) {
+							ids.push(checkRows[i].trCd);
+						}
+
+						tradeRemoveAjax(ids);
+					} else {
+						alert('체크된 행이 없습니다.');
+					}
 				});
 
 

@@ -27,4 +27,26 @@
 	  	</if>
 	  	ORDER BY tr_nm DESC
     </select>
+    
+    <update id="updateTrade" parameterType="tradeVO">
+    	UPDATE strade
+    	SET tr_nm = #{trNm},
+    		addr = #{addr},
+    		ceo_nm = #{ceoNm},
+    		upte = #{upte},
+    		tr_num = #{trNum},
+    		tel = #{tel},
+    		fax = #{fax},
+    		jongmok = #{jongmok}
+    	WHERE tr_cd = #{trCd}
+	</update>
+	
+	<delete id="deleteTrade">
+		DELETE
+		FROM strade
+		WHERE tr_cd IN
+		<foreach collection="ids" item="item" open="(" close=")" separator=",">
+		 #{item}
+		</foreach>
+	</delete>
 </mapper>

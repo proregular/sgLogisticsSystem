@@ -10,6 +10,6 @@ public interface TradeDAO {
 	//List<TradeDTO> selectTrade();
 	List<TradeDTO> selectTradeByNameAndCode(Map<String, Object> param);
 	int insertTrade(TradeVO tradeVO);
-	//int updateTrade(TradeVO tradeVO);
-	//int removeTrade(String code);
+	int updateTrade(TradeVO tradeVO);
+	int deleteTrade(List<String> ids);
 }

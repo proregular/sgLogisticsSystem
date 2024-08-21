@@ -43,6 +43,28 @@ public class TradeDAOImpl implements TradeDAO {
 		}
 	}
 	
-	
+	@Override
+	public int updateTrade(TradeVO tradeVO) {
+		try {
+			return sql.update("Trade.updateTrade", tradeVO);
+		} catch (DataAccessException e) {
+			String message = CommonUtils.costomDBErrorMessage(e);
+			
+			throw new CustomDatabaseException(message);
+		}
+	}
 
+	@Override
+	public int deleteTrade(List<String> ids) {
+		try {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("ids", ids);
+			
+			return sql.delete("Trade.updateTrade", map);
+		}  catch (DataAccessException e) {
+			String message = CommonUtils.costomDBErrorMessage(e);
+			
+			throw new CustomDatabaseException(message);
+		}
+	}
 }

@@ -52,7 +52,6 @@ public class TradeServiceImpl implements TradeService {
 			
 			return responseDTO;
 		}
-		
 	}
 
 	@Override
@@ -62,6 +61,60 @@ public class TradeServiceImpl implements TradeService {
 		param.put("code", code);
 		
 		return tradeDAOImpl.selectTradeByNameAndCode(param);
+	}
+
+	@Override
+	public ResponseDTO<String> modifyTrade(TradeDTO tradeDTO) {
+		TradeVO tradeVO = new TradeVO(
+				tradeDTO.getTrCd(),
+				tradeDTO.getTrNm(),
+				tradeDTO.getCeoNm(),
+				tradeDTO.getAddr(),
+				tradeDTO.getUpte(),
+				tradeDTO.getTrNum(),
+				tradeDTO.getTel(),
+				tradeDTO.getFax(),
+				tradeDTO.getJongmok()
+				);
+		
+		ResponseDTO<String> responseDTO = new ResponseDTO("FAIL", "실패", "");
+		
+		try {
+			int result = tradeDAOImpl.updateTrade(tradeVO);
+			
+			if(result > 0) {
+				responseDTO.setResultCode("SUCCESS");
+				responseDTO.setMassage("저장에 성공했습니다.");
+			}
+			
+			return responseDTO;
+		} catch (CustomDatabaseException e) {
+			responseDTO.setResultCode("FAIL");
+			responseDTO.setMassage("저장에 실패했습니다.\n" + e.getMessage());
+			
+			return responseDTO;
+		}
+	}
+
+	@Override
+	public ResponseDTO<String> removeTrade(List<String> ids) {
+		ResponseDTO<String> responseDTO = new ResponseDTO("FAIL", "실패", "");
+		
+		try {
+			int result = tradeDAOImpl.deleteTrade(ids);
+			
+			if(result > 0) {
+				responseDTO.setResultCode("SUCCESS");
+				responseDTO.setMassage("저장에 성공했습니다.");
+			}
+			
+			return responseDTO;
+		} catch (CustomDatabaseException e) {
+			responseDTO.setResultCode("FAIL");
+			responseDTO.setMassage("저장에 실패했습니다.\n" + e.getMessage());
+			
+			return responseDTO;
+		}
 	}
 
 }

@@ -21,7 +21,7 @@ public class ExceptionController {
 		String errMsg = bindingResult.getFieldError().getDefaultMessage();
 		String errField = bindingResult.getFieldError().getField();
 		
-		String message = "에러코드: " + errCode + " 에러내용: " + errMsg;
+		String message = "에러필드: " + errField + " 에러코드: " + errCode + " 에러내용: " + errMsg;
 		
 		ResponseDTO<String> responseDTO = new ResponseDTO("FAIL", message, errField);
 		

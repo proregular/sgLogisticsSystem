@@ -31,13 +31,13 @@ public class TradeDTO {
 	@Size(max=30, message="30자 이하로 작성해주세요.")
 	private String upte;
 	@Size(max=10, message="10자 이하로 작성해주세요.")
-	@Pattern(regexp="^$|^[0-9]$", message="숫자만 입력할 수 있습니다.")
+	@Pattern(regexp="^[0-9]*$", message="숫자만 입력할 수 있습니다.")
 	private String trNum;
-	@Size(max=10, message="10자 이하로 작성해주세요.")
-	@Pattern(regexp="^$|^[0-9]$", message="숫자만 입력할 수 있습니다.")
+	@Size(max=11, message="11자 이하로 작성해주세요.")
+	@Pattern(regexp="^[0-9]*$", message="숫자만 입력할 수 있습니다.")
 	private String tel;
-	@Size(max=10, message="10자 이하로 작성해주세요.")
-	@Pattern(regexp="^$|^[0-9]$", message="숫자만 입력할 수 있습니다.")
+	@Size(max=11, message="11자 이하로 작성해주세요.")
+	@Pattern(regexp="^[0-9]*$", message="숫자만 입력할 수 있습니다.")
 	private String fax;
 	@Size(max=30, message="30자 이하로 작성해주세요.")
 	private String jongmok;
