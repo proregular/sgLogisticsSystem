@@ -60,7 +60,7 @@ public class TradeDAOImpl implements TradeDAO {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("ids", ids);
 			
-			return sql.delete("Trade.updateTrade", map);
+			return sql.delete("Trade.deleteTrade", map);
 		}  catch (DataAccessException e) {
 			String message = CommonUtils.costomDBErrorMessage(e);
 			

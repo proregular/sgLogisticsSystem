@@ -462,12 +462,11 @@
 				$.ajax({
 					type: 'POST',
 					url: "/api/trade/delete",
-					contentType: 'application/json; charset=utf-8',
 					dataType: 'json',
 					async: false,
-					data: JSON.stringify({
+					data: {
 						ids: arr_ids
-					}),
+					},
 					success: function (result) {
 						console.log(result);
 						alert(result.massage);
@@ -631,13 +630,15 @@
 					let checkRows = instance.getCheckedRows();
 
 					if (checkRows.length > 0) {
-						let ids = [];
-
-						for (let i = 0; i < checkRows.length; i++) {
-							ids.push(checkRows[i].trCd);
+						if(confirm('삭제하시겠습니까?')) {
+							let ids = new Array;
+	
+							for (let i = 0; i < checkRows.length; i++) {
+								ids.push(checkRows[i].trCd);
+							}
+	
+							tradeRemoveAjax(ids);
 						}
-
-						tradeRemoveAjax(ids);
 					} else {
 						alert('체크된 행이 없습니다.');
 					}

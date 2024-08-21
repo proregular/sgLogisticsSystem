@@ -42,13 +42,13 @@ public class TradeServiceImpl implements TradeService {
 			
 			if(result > 0) {
 				responseDTO.setResultCode("SUCCESS");
-				responseDTO.setMassage("저장에 성공했습니다.");
+				responseDTO.setMassage("추가에 성공했습니다.");
 			}
 			
 			return responseDTO;
 		} catch (CustomDatabaseException e) {
 			responseDTO.setResultCode("FAIL");
-			responseDTO.setMassage("저장에 실패했습니다.\n" + e.getMessage());
+			responseDTO.setMassage("추가에 실패했습니다.\n" + e.getMessage());
 			
 			return responseDTO;
 		}
@@ -84,13 +84,13 @@ public class TradeServiceImpl implements TradeService {
 			
 			if(result > 0) {
 				responseDTO.setResultCode("SUCCESS");
-				responseDTO.setMassage("저장에 성공했습니다.");
+				responseDTO.setMassage("수정에 성공했습니다.");
 			}
 			
 			return responseDTO;
 		} catch (CustomDatabaseException e) {
 			responseDTO.setResultCode("FAIL");
-			responseDTO.setMassage("저장에 실패했습니다.\n" + e.getMessage());
+			responseDTO.setMassage("수정에 실패했습니다.\n" + e.getMessage());
 			
 			return responseDTO;
 		}
@@ -105,13 +105,13 @@ public class TradeServiceImpl implements TradeService {
 			
 			if(result > 0) {
 				responseDTO.setResultCode("SUCCESS");
-				responseDTO.setMassage("저장에 성공했습니다.");
+				responseDTO.setMassage("삭제에 성공했습니다.");
 			}
 			
 			return responseDTO;
 		} catch (CustomDatabaseException e) {
 			responseDTO.setResultCode("FAIL");
-			responseDTO.setMassage("저장에 실패했습니다.\n" + e.getMessage());
+			responseDTO.setMassage("삭제에 실패했습니다.\n" + e.getMessage());
 			
 			return responseDTO;
 		}
