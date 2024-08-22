@@ -37,4 +37,18 @@ public class MainController {
 		
 		return "sysm/trade_mng";
 	}
+	
+	@GetMapping("/dept_mng")
+	public String deptMngP(Model model, HttpServletRequest request) {
+		model.addAttribute("servletPath", request.getServletPath());
+		
+		return "sysm/dept_mng";
+	}
+	
+	@GetMapping("/rank_mng")
+	public String rankMngP(Model model, HttpServletRequest request) {
+		model.addAttribute("servletPath", request.getServletPath());
+		
+		return "sysm/rank_mng";
+	}
 }

@@ -7,7 +7,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
-	<title>믈류관리시스템</title>
+	<title>거래처 관리</title>
 </head>
 
 <body>
@@ -20,7 +20,7 @@
 						<h1 class="modal-title fs-5" id="exampleModalLabel">거래처 추가</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
-					<div class="modal-body" id="modal_trade_add">
+					<div class="modal-body" id="modal_add">
 						<form>
 							<div class="row mb-4">
 								<div class="col">
@@ -160,7 +160,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col">
+				<div class="col-5">
 					<div id="grid"></div>
 				</div>
 				<div id="edit_wrap" class="col invisible">
@@ -265,6 +265,9 @@
 		<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 		<script type="text/javascript">
 			let objSrch = {};
+			let ajaxApiUrl = "/api/trade";
+			let pkFieldName = "trCd";
+
 			const Grid = tui.Grid;
 
 			Grid.applyTheme('striped');
@@ -330,7 +333,7 @@
 				]
 			});
 
-			let obj_trade = {
+			let obj_ajax = {
 				trCd: null,
 				trNm: null,
 				trNum: null,
@@ -342,47 +345,60 @@
 				fax: ""
 			}
 
+			toastr.options = {
+				"closeButton": false,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": true,
+				"positionClass": "toast-bottom-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": "100",
+				"hideDuration": "1000",
+				"timeOut": "1500",
+				"extendedTimeOut": "1000",
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			}
+
 			/*
 				메소드 선언
 			*/
 
 			// 거래처 추가 Ajax 통신
-			function tradeAddAjax(obj_trade) {
-				console.log('추가 데이터:');
-				console.log(obj_trade);
+			function addAjax(obj_ajax) {
 				$.ajax({
 					type: 'POST',
-					url: "/api/trade",
+					url: ajaxApiUrl,
 					contentType: 'application/json; charset=utf-8',
 					dataType: 'json',
 					async: false,
-					data: JSON.stringify(obj_trade),
+					data: JSON.stringify(obj_ajax),
 					success: function (result) {
-						console.log(result);
 						alert(result.massage);
 
 						if (result.resultCode == 'SUCCESS') {
-							$('#modal_trade_add').find('input').val("");
+							$('#modal_add').find('input').val("");
 							$('#btn_modal_close').trigger('click');
 
-							tradeListAjax(objSrch);
+							listAjax(objSrch, obj_ajax[pkFieldName]);
 						} else {
 							let errFieldId = "#" + result.data;
 							$(errFieldId).trigger('focus');
 						}
 					},
 					error: function (e) {
-						console.log(e);
 						alert("Ajax 통신에 실패하였습니다.");
 					}
 				});
 			}
 
 			// 거래처 조회 Ajax 통신
-			function tradeListAjax(objSrch) {
-				let urlStr = "/api/trade";
+			function listAjax(objSrch, selKey = "") {
+				let urlStr = "";
 				let queryString = '';
-
 
 				if (Object.keys(objSrch).length > 0) {
 					queryString += '?';
@@ -400,8 +416,8 @@
 					firstFg = false;
 				}
 
-				urlStr = urlStr + queryString;
-				console.log(urlStr)
+				urlStr = ajaxApiUrl + queryString;
+
 				$.ajax({
 					type: 'GET',
 					url: urlStr,
@@ -409,8 +425,6 @@
 					dataType: 'json',
 					async: false,
 					success: function (result) {
-						console.log('조회 데이터: ');
-						console.log(result);
 						instance.resetData(result);
 
 						$('#edit_wrap').find('input').val('');
@@ -418,65 +432,73 @@
 						if (!($('#edit_wrap').hasClass('invisible'))) {
 							$('#edit_wrap').addClass('invisible');
 						}
+
+						let rowData = instance.getData();
+
+						if (selKey != "") {
+							for (let i = 0; i < rowData.length; i++) {
+								console.log(rowData[i][pkFieldName], selKey)
+								if (rowData[i][pkFieldName] == selKey) {
+									instance.focus(rowData[i].rowKey, pkFieldName, true);
+
+									break;
+								}
+							}
+						} else if (rowData.length > 0) {
+							instance.focus(0, pkFieldName, true);
+						}
 					},
 					error: function (e) {
-						console.log(e);
 						alert("Ajax 통신에 실패하였습니다.");
 					}
 				});
 			}
 
 			// 거래처 수정 Ajax 통신
-			function tradeModifyAjax(obj_trade) {
-				console.log('추가 데이터:');
-				console.log(obj_trade);
-				let urlStr = "/api/trade/" + obj_trade.trCd;
+			function tradeModifyAjax(obj_ajax, key) {
+				let urlStr = ajaxApiUrl + '/' + key;
+
 				$.ajax({
 					type: 'PUT',
 					url: urlStr,
 					contentType: 'application/json; charset=utf-8',
 					dataType: 'json',
 					async: false,
-					data: JSON.stringify(obj_trade),
+					data: JSON.stringify(obj_ajax),
 					success: function (result) {
 						alert(result.massage);
 
 						if (result.resultCode == 'SUCCESS') {
-							tradeListAjax(objSrch);
+							listAjax(objSrch, key);
 						} else {
 							let errFieldId = "#e_" + result.data;
 							$(errFieldId).trigger('focus');
 						}
 					},
 					error: function (e) {
-						console.log(e);
 						alert("Ajax 통신에 실패하였습니다.");
 					}
 				});
 			}
 
 			// 거래처 삭제 Ajax 통신
-			function tradeRemoveAjax(arr_ids) {
-				console.log('추가 데이터:');
-				console.log(obj_trade);
+			function removeAjax(arr_ids) {
 				$.ajax({
 					type: 'POST',
-					url: "/api/trade/delete",
+					url: ajaxApiUrl + "/delete",
 					dataType: 'json',
 					async: false,
 					data: {
 						ids: arr_ids
 					},
 					success: function (result) {
-						console.log(result);
 						alert(result.massage);
 
 						if (result.resultCode == 'SUCCESS') {
-							tradeListAjax(objSrch);
+							listAjax(objSrch);
 						}
 					},
 					error: function (e) {
-						console.log(e);
 						alert("Ajax 통신에 실패하였습니다.");
 					}
 				});
@@ -518,33 +540,23 @@
 
 			// 테이블에서 선택 영역을 변경한 경우
 			instance.on('focusChange', (evt) => {
-				console.log('포커스 변경');
-				console.log(evt);
 				if (evt.rowKey != evt.prevRowKey) {
-					console.log(evt);
-					console.log('행변경');
 					let idPrefix = '#e_';
 					let rowData = instance.getRow(evt.rowKey);
-
-					if ($('#edit_wrap').hasClass('invisible')) {
-						$('#edit_wrap').removeClass('invisible');
-					}
 
 					for (key in rowData) {
 						$(idPrefix + key).val(rowData[key]);
 					}
 
-					if ($('#edit_wrap').hasClass('invisible')) {
-						$('#edit_wrap').removeClass('invisible');
-					}
-
+					$('#edit_wrap').find('input').removeClass('bg-warning-subtle text-warning-emphasis');
+					$('#edit_wrap').removeClass('invisible');
 				}
 			});
 
 			$(function () {
 				// 모달 생성시
 				$('#exampleModal').on('shown.bs.modal', function (evt) {
-					let inputs = $('#modal_trade_add').find('input');
+					let inputs = $('#modal_add').find('input');
 					let id = "";
 
 					for (let i = 0; i < inputs.length; i++) {
@@ -560,19 +572,17 @@
 
 				// 모달의 추가 버튼
 				$('#btn_add').on('click', function (evt) {
-					console.log(obj_trade);
 					// 거래처 객체 생성
-					let inputs = $('#modal_trade_add').find('input');
+					let inputs = $('#modal_add').find('input');
 					let prop_name = "";
 
 					for (let i = 0; i < inputs.length; i++) {
 						prop_name = $(inputs[i]).attr('id');
 
-						obj_trade[prop_name] = $('#' + prop_name).val();
+						obj_ajax[prop_name] = $('#' + prop_name).val();
 					}
 
-					console.log(obj_trade);
-					tradeAddAjax(obj_trade);
+					addAjax(obj_ajax);
 				});
 
 				// 모달 주소 검색 버튼
@@ -590,10 +600,10 @@
 					let srch_tr_nm = $('#srch_tr_nm').val();
 					let srch_tr_cd = $('#srch_tr_cd').val();
 
-					if (srch_tr_nm != '') objSrch.srch_tr_nm = srch_tr_nm;
-					if (srch_tr_cd != '') objSrch.srch_tr_cd = srch_tr_cd;
+					objSrch.srch_tr_nm = srch_tr_nm;
+					objSrch.srch_tr_cd = srch_tr_cd;
 
-					tradeListAjax(objSrch);
+					listAjax(objSrch);
 				});
 
 				// 수정 버튼
@@ -603,7 +613,7 @@
 					let rowData = instance.getRow(focusRowKey);
 					let changeRowData = {};
 
-					for (key in obj_trade) {
+					for (key in obj_ajax) {
 						if ($(idPrefix + key).val() != rowData[key]) {
 							changeRowData[key] = $(idPrefix + key).val();
 						}
@@ -614,14 +624,14 @@
 						if (confirm("수정 사항을 저장하시겠습니까?")) {
 							Object.assign(rowData, changeRowData);
 
-							for (key in obj_trade) {
-								obj_trade[key] = rowData[key];
+							for (key in obj_ajax) {
+								obj_ajax[key] = rowData[key];
 							}
 
-							tradeModifyAjax(obj_trade);
+							tradeModifyAjax(obj_ajax, obj_ajax[pkFieldName]);
 						}
 					} else {
-						alert('수정사항이 없습니다.');
+						toastr.warning('수정사항이 없습니다.', '수정사항 없음.')
 					}
 				});
 
@@ -630,20 +640,37 @@
 					let checkRows = instance.getCheckedRows();
 
 					if (checkRows.length > 0) {
-						if(confirm('삭제하시겠습니까?')) {
+						if (confirm('삭제하시겠습니까?')) {
 							let ids = new Array;
-	
+
 							for (let i = 0; i < checkRows.length; i++) {
-								ids.push(checkRows[i].trCd);
+								ids.push(checkRows[i][pkFieldName]);
 							}
-	
-							tradeRemoveAjax(ids);
+
+							removeAjax(ids);
 						}
 					} else {
-						alert('체크된 행이 없습니다.');
+						toastr.warning('체크된 행이 없습니다.', '체크 항목 없음.');
 					}
 				});
 
+				// 수정 input 변경
+				$('#edit_wrap').find('input').on('change', function (evt) {
+					let focusRowKey = instance.getFocusedCell().rowKey;
+					let idPrefix = 'e_';
+					let rowData = instance.getRow(focusRowKey);
+					let inputId = $(this).attr('id');
+					let propName = inputId.replace(idPrefix, '');
+
+					if ($(this).val() != rowData[propName]) {
+						if (!($(this).hasClass('bg-warning-subtle text-warning-emphasis'))) {
+							$(this).addClass('bg-warning-subtle text-warning-emphasis');
+						}
+					}
+				});
+
+				// 페이지 초기 처리
+				$('#btn_srch').trigger('click');
 
 			});
 

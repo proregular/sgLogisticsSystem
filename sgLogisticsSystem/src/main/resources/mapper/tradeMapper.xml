@@ -3,18 +3,11 @@
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Trade">
-	<!--<select id="login" resultType="emp">
-		SELECT * FROM semp WHERE emp_id=#{id}
-	</select>-->
-	
 	<insert id="insertTrade" parameterType="tradeVO">
 		INSERT INTO strade(tr_cd, tr_nm, addr, ceo_nm, upte, tr_num, tel, fax, jongmok)
 		VALUES (#{trCd}, #{trNm}, #{addr}, #{ceoNm}, #{upte}, #{trNum}, #{tel}, #{fax}, #{jongmok})
 	</insert>
 	
-	<!--<select id="idCheck" parameterType="emp" resultType="boolean">
-		SELECT EXISTS(SELECT * FROM semp WHERE emp_id=#{empId}) AS flag
-	</select>-->
 	 <select id="selectTradeByNameAndCode" parameterType="map" resultType="tradeDTO">
         SELECT *
         FROM strade
@@ -25,7 +18,7 @@
 	  	<if test="code != null and code != ''">
 	    	AND tr_cd LIKE CONCAT('%',#{code},'%')
 	  	</if>
-	  	ORDER BY tr_nm DESC
+	  	ORDER BY tr_cd ASC
     </select>
     
     <update id="updateTrade" parameterType="tradeVO">

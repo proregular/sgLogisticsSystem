@@ -9,5 +9,9 @@
 		<typeAlias type="com.sg.ls.dto.EmpDTO" alias="emp"></typeAlias>
 		<typeAlias type="com.sg.ls.dto.TradeDTO" alias="tradeDTO"></typeAlias>
 		<typeAlias type="com.sg.ls.vo.TradeVO" alias="tradeVO"></typeAlias>
+		<typeAlias type="com.sg.ls.dto.DeptDTO" alias="deptDTO"></typeAlias>
+		<typeAlias type="com.sg.ls.vo.DeptVO" alias="deptVO"></typeAlias>
+		<typeAlias type="com.sg.ls.dto.RankDTO" alias="rankDTO"></typeAlias>
+		<typeAlias type="com.sg.ls.vo.RankVO" alias="rankVO"></typeAlias>
 	</typeAliases>
 </configuration>
