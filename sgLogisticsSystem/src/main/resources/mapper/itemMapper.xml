@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Item">
+	<insert id="insertItem" parameterType="itemVO">
+		INSERT INTO sitem(item_cd, item_nm, item_sd, item_dc, item_fg)
+		VALUES (#{itemCd}, #{itemNm}, #{itemSd}, #{itemDc}, #{itemFg})
+	</insert>
+	
+	 <select id="selectItemByNameAndCode" parameterType="map" resultType="itemDTO">
+        SELECT *
+        FROM sitem
+        WHERE 1=1
+	  	<if test="name != null and name != ''">
+	    	AND item_nm LIKE CONCAT('%', #{name},'%')
+	  	</if>
+	  	<if test="code != null and code != ''">
+	    	AND item_cd LIKE CONCAT('%',#{code},'%')
+	  	</if>
+	  	ORDER BY item_cd ASC
+    </select>
+    
+    <update id="updateItem" parameterType="itemVO">
+    	UPDATE sitem
+    	SET item_nm = #{itemNm},
+    		item_sd = #{itemSd},
+    		item_dc = #{itemDc},
+    		item_fg = #{itemFg}
+    	WHERE item_cd = #{itemCd}
+	</update>
+	
+	<delete id="deleteItem">
+		DELETE
+		FROM sitem
+		WHERE item_cd IN
+		<foreach collection="ids" item="item" open="(" close=")" separator=",">
+		 #{item}
+		</foreach>
+	</delete>
+</mapper>

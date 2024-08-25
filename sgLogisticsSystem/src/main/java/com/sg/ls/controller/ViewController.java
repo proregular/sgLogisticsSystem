@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class MainController {
+public class ViewController {
 	private final SecurityService securityService;
 	
 	@GetMapping(value = {"/", "/login"})
@@ -50,5 +50,12 @@ public class MainController {
 		model.addAttribute("servletPath", request.getServletPath());
 		
 		return "sysm/rank_mng";
+	}
+	
+	@GetMapping("/item_mng")
+	public String itemMngP(Model model, HttpServletRequest request) {
+		model.addAttribute("servletPath", request.getServletPath());
+		
+		return "sysm/item_mng";
 	}
 }

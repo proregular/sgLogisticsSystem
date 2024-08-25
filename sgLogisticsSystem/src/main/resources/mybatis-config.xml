@@ -13,5 +13,7 @@
 		<typeAlias type="com.sg.ls.vo.DeptVO" alias="deptVO"></typeAlias>
 		<typeAlias type="com.sg.ls.dto.RankDTO" alias="rankDTO"></typeAlias>
 		<typeAlias type="com.sg.ls.vo.RankVO" alias="rankVO"></typeAlias>
+		<typeAlias type="com.sg.ls.dto.ItemDTO" alias="ItemDTO"></typeAlias>
+		<typeAlias type="com.sg.ls.vo.ItemVO" alias="ItemVO"></typeAlias>
 	</typeAliases>
 </configuration>

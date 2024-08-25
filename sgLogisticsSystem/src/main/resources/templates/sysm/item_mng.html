@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="shared/_layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="ko"
+	data-bs-theme="light">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
+	<title>품목 관리</title>
+</head>
+
+<body>
+	<main layout:fragment="content" class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+		<div class="modal fade" id="exampleModal" tabindex="-1" data-bs-backdrop="static"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5" id="exampleModalLabel">품목 추가</h1>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body" id="modal_add">
+						<form>
+							<div class="row mb-4">
+								<div class="col">
+									<div class="input-group">
+										<span class="input-group-text"><span style="color: red;">*
+												&nbsp;</span>품목코드</span>
+										<input id="itemCd" type="text" class="form-control" maxlength="8"
+											placeholder="영문 또는 숫자 8자리">
+									</div>
+								</div>
+
+								<div class="col-8">
+									<div class="input-group">
+										<span class="input-group-text"><span style="color: red;">*
+												&nbsp;</span>품목명</span>
+										<input id="itemNm" type="text" class="form-control" maxlength="30"
+											placeholder="30자리 이하 품목명">
+									</div>
+								</div>
+							</div>
+							<div class="row mb-4">
+								<div class="col">
+									<div class="input-group">
+										<span class="input-group-text">규격</span>
+										<input id="itemSd" type="text" class="form-control" maxlength="10"
+											placeholder="10자리 이하 규격">
+									</div>
+								</div>
+
+								<div class="col">
+									<div class="input-group">
+										<span class="input-group-text">단위</span>
+										<input id="itemDc" type="text" class="form-control" maxlength="10"
+											placeholder="10자리 이하 단위">
+									</div>
+								</div>
+							</div>
+							<div class="row mb-4">
+								<div class="col">
+									<div class="input-group">
+										<span class="input-group-text">품목 구분</span>
+										<select id="itemFg" class="form-select">
+											<option value="0" selected>원재료</option>
+											<option value="1">부재료</option>
+											<option value="2">제품</option>
+											<option value="3">반제품</option>
+											<option value="4">상품</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+							id="btn_modal_close">닫기</button>
+						<button type="button" class="btn btn-primary" id="btn_add"><i
+								class="fa-solid fa-circle-plus"></i>&nbsp;추가</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div
+			class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+			<h1 class="h2">품목 관리</h1>
+			<div class="btn-toolbar mb-2 mb-md-0">
+				<div class="d-flex me-2 gap-3">
+					<button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
+						data-bs-target="#exampleModal"><i class="fa-solid fa-circle-plus"></i>&nbsp; 추가</button>
+					<button id="btn_remove" type="button" class="btn btn-outline-danger"><i
+							class="fa-solid fa-trash-can"></i>&nbsp;
+						삭제</button>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="row p-2 mb-3 align-items-center border rounded">
+				<div class="col-auto">
+					<label for="srch_item_nm" class="col-form-label">품목명</label>
+				</div>
+				<div class="col-auto">
+					<input type="text" class="form-control form-control-sm" id="srch_item_nm" placeholder="품목명">
+				</div>
+				<div class="col-auto">
+					<label for="srch_item_cd" class="col-form-label">품목코드</label>
+				</div>
+				<div class="col-auto">
+					<input type="text" class="form-control form-control-sm" id="srch_item_cd" placeholder="품목코드">
+				</div>
+
+				<div class="col" style="margin-left:auto;">
+					<button type="button" id="btn_srch" class="btn btn-outline-secondary btn-sm"><i
+							class="fa-solid fa-magnifying-glass"></i>&nbsp; 조회</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-5">
+					<div id="grid"></div>
+				</div>
+				<div id="edit_wrap" class="col invisible">
+					<div class="row mb-4 justify-content-end">
+						<div class="col-auto">
+							<button id="btn_modify" type="button" class="btn btn-outline-primary"><i
+									class="fa-solid fa-pen"></i>&nbsp;
+								수정</button>
+						</div>
+					</div>
+					<div class="row mb-4">
+						<div class="col">
+							<div class="input-group">
+								<span class="input-group-text">품목코드</span>
+								<input id="e_itemCd" type="text" class="form-control" maxlength="8"
+									placeholder="영문 또는 숫자 8자리" disabled readonly>
+							</div>
+						</div>
+
+						<div class="col">
+							<div class="input-group">
+								<span class="input-group-text"><span style="color: red;">*
+										&nbsp;</span>품목명</span>
+								<input id="e_itemNm" type="text" class="form-control" maxlength="30"
+									placeholder="30자리 이하 품목명">
+							</div>
+						</div>
+					</div>
+					<div class="row mb-4">
+						<div class="col-7">
+							<div class="input-group">
+								<span class="input-group-text">규격</span>
+								<input id="e_itemSd" type="text" class="form-control" maxlength="10"
+									placeholder="'-'을 제외한 숫자 10자리">
+							</div>
+						</div>
+
+						<div class="col-5">
+							<div class="input-group">
+								<span class="input-group-text">단위</span>
+								<input id="e_itemDc" type="text" class="form-control" maxlength="10"
+									placeholder="10자리 이하 대표자명">
+							</div>
+						</div>
+					</div>
+					<div class="row mb-4">
+						<div class="col">
+							<div class="input-group">
+								<span class="input-group-text">품목 구분</span>
+								<select id="e_itemFg" class="form-select">
+									<option value="0" selected>원재료</option>
+									<option value="1">부재료</option>
+									<option value="2">제품</option>
+									<option value="3">반제품</option>
+									<option value="4">상품</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</main>
+	<th:block layout:fragment="script">
+		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
+		<script type="text/javascript">
+			let objSrch = {};
+			let ajaxApiUrl = "/api/item";
+			let pkFieldName = "itemCd";
+
+			const Grid = tui.Grid;
+
+			Grid.applyTheme('striped');
+
+			const instance = new Grid({
+				el: document.getElementById('grid'), // Container element
+				bodyHeight: 550,
+				rowHeaders: ['checkbox'],
+				selectionUnit: 'row',
+				draggable: false,
+				columns: [
+					{
+						header: '품목 코드',
+						name: 'itemCd'
+					},
+					{
+						header: '품목 명',
+						name: 'itemNm'
+					},
+					{
+						header: '규격',
+						name: 'itemSd',
+					},
+					{
+						header: '단위',
+						name: 'itemDc',
+						hidden: true
+					},
+					{
+						header: '품목구분',
+						name: 'itemFg',
+						hidden: true,
+						validation: {
+							dataType: "number"
+						}
+					}
+				]
+			});
+
+			let obj_ajax = {
+				itemCd: null,
+				itemNm: null,
+				itemSd: "",
+				itemDc: "",
+				itemFg: null
+			}
+
+			toastr.options = {
+				"closeButton": false,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": true,
+				"positionClass": "toast-bottom-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": "100",
+				"hideDuration": "1000",
+				"timeOut": "1500",
+				"extendedTimeOut": "1000",
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			}
+
+			/*
+				메소드 선언
+			*/
+
+			// 품목 추가 Ajax 통신
+			function addAjax(obj_ajax) {
+				$.ajax({
+					type: 'POST',
+					url: ajaxApiUrl,
+					contentType: 'application/json; charset=utf-8',
+					dataType: 'json',
+					async: false,
+					data: JSON.stringify(obj_ajax),
+					success: function (result) {
+						alert(result.massage);
+
+						if (result.resultCode == 'SUCCESS') {
+							$('#modal_add').find('input').val("");
+							$('#btn_modal_close').trigger('click');
+
+							listAjax(objSrch, obj_ajax[pkFieldName]);
+						} else {
+							let errFieldId = "#" + result.data;
+							$(errFieldId).trigger('focus');
+						}
+					},
+					error: function (e) {
+						alert("Ajax 통신에 실패하였습니다.");
+					}
+				});
+			}
+
+			// 품목 조회 Ajax 통신
+			function listAjax(objSrch, selKey = "") {
+				let urlStr = "";
+				let queryString = '';
+
+				if (Object.keys(objSrch).length > 0) {
+					queryString += '?';
+				}
+
+				let firstFg = true;
+
+				for (const key in objSrch) {
+					if (firstFg) {
+						queryString += key + '=' + objSrch[key];
+					} else {
+						queryString += '&' + key + '=' + objSrch[key];
+					}
+
+					firstFg = false;
+				}
+
+				urlStr = ajaxApiUrl + queryString;
+
+				$.ajax({
+					type: 'GET',
+					url: urlStr,
+					contentType: 'application/json; charset=utf-8',
+					dataType: 'json',
+					async: false,
+					success: function (result) {
+						instance.resetData(result);
+
+						$('#edit_wrap').find('input').val('');
+
+						if (!($('#edit_wrap').hasClass('invisible'))) {
+							$('#edit_wrap').addClass('invisible');
+						}
+
+						let rowData = instance.getData();
+
+						if (selKey != "") {
+							for (let i = 0; i < rowData.length; i++) {
+								console.log(rowData[i][pkFieldName], selKey)
+								if (rowData[i][pkFieldName] == selKey) {
+									instance.focus(rowData[i].rowKey, pkFieldName, true);
+
+									break;
+								}
+							}
+						} else if (rowData.length > 0) {
+							instance.focus(0, pkFieldName, true);
+						}
+					},
+					error: function (e) {
+						alert("Ajax 통신에 실패하였습니다.");
+					}
+				});
+			}
+
+			// 품목 수정 Ajax 통신
+			function tradeModifyAjax(obj_ajax, key) {
+				let urlStr = ajaxApiUrl + '/' + key;
+
+				$.ajax({
+					type: 'PUT',
+					url: urlStr,
+					contentType: 'application/json; charset=utf-8',
+					dataType: 'json',
+					async: false,
+					data: JSON.stringify(obj_ajax),
+					success: function (result) {
+						alert(result.massage);
+
+						if (result.resultCode == 'SUCCESS') {
+							listAjax(objSrch, key);
+						} else {
+							let errFieldId = "#e_" + result.data;
+							$(errFieldId).trigger('focus');
+						}
+					},
+					error: function (e) {
+						alert("Ajax 통신에 실패하였습니다.");
+					}
+				});
+			}
+
+			// 품목 삭제 Ajax 통신
+			function removeAjax(arr_ids) {
+				$.ajax({
+					type: 'POST',
+					url: ajaxApiUrl + "/delete",
+					dataType: 'json',
+					async: false,
+					data: {
+						ids: arr_ids
+					},
+					success: function (result) {
+						alert(result.massage);
+
+						if (result.resultCode == 'SUCCESS') {
+							listAjax(objSrch);
+						}
+					},
+					error: function (e) {
+						alert("Ajax 통신에 실패하였습니다.");
+					}
+				});
+			}
+
+			/*
+				이벤트 정의
+			*/
+
+			// 그리드 이벤트 정의
+
+			// 테이블에서 선택 영역을 변경한 경우
+			instance.on('focusChange', (evt) => {
+				if (evt.rowKey != evt.prevRowKey) {
+					let idPrefix = '#e_';
+					let rowData = instance.getRow(evt.rowKey);
+					let tag_id = "";
+
+					for (key in rowData) {
+						tag_id = idPrefix + key;
+						if ($(tag_id).prop("tagName") == 'select') {
+							$(idPrefix + key).val(rowData[key]).prop("selected", true);
+						} else {
+							$(idPrefix + key).val(rowData[key]);
+						}
+					}
+
+					$('#edit_wrap').find('input').removeClass('bg-warning-subtle text-warning-emphasis');
+					$('#edit_wrap').removeClass('invisible');
+				}
+			});
+
+			$(function () {
+				// 모달 생성시
+				$('#exampleModal').on('shown.bs.modal', function (evt) {
+					let inputs = $('#modal_add').find('input');
+					let id = "";
+
+					for (let i = 0; i < inputs.length; i++) {
+						id = '#' + $(inputs[i]).attr('id');
+
+						if ($(id).val() == '') {
+							$(id).trigger('focus');
+
+							break;
+						}
+					}
+				});
+
+				// 모달의 추가 버튼
+				$('#btn_add').on('click', function (evt) {
+					// 품목 객체 생성
+					let inputs = $('#modal_add').find('input, select');
+					let prop_name = "";
+
+					for (let i = 0; i < inputs.length; i++) {
+						prop_name = $(inputs[i]).attr('id');
+						obj_ajax[prop_name] = $('#' + prop_name).val();
+					}
+					console.log(obj_ajax);
+					addAjax(obj_ajax);
+				});
+
+				// 조회 버튼
+				$('#btn_srch').on('click', function (evt) {
+					let srch_item_nm = $('#srch_item_nm').val();
+					let srch_item_cd = $('#srch_item_cd').val();
+
+					objSrch.srch_item_nm = srch_item_nm;
+					objSrch.srch_item_cd = srch_item_cd;
+
+					listAjax(objSrch);
+				});
+
+				// 수정 버튼
+				$('#btn_modify').on('click', function (evt) {
+					let focusRowKey = instance.getFocusedCell().rowKey;
+					let idPrefix = '#e_';
+					let rowData = instance.getRow(focusRowKey);
+					let changeRowData = {};
+
+					for (key in obj_ajax) {
+						if ($(idPrefix + key).val() != rowData[key]) {
+							changeRowData[key] = $(idPrefix + key).val();
+						}
+					}
+
+					if (Object.keys(changeRowData).length > 0) {
+
+						if (confirm("수정 사항을 저장하시겠습니까?")) {
+							Object.assign(rowData, changeRowData);
+
+							for (key in obj_ajax) {
+								obj_ajax[key] = rowData[key];
+							}
+
+							tradeModifyAjax(obj_ajax, obj_ajax[pkFieldName]);
+						}
+					} else {
+						toastr.warning('수정사항이 없습니다.', '수정사항 없음.')
+					}
+				});
+
+				// 삭제 버튼
+				$('#btn_remove').on('click', function (evt) {
+					let checkRows = instance.getCheckedRows();
+
+					if (checkRows.length > 0) {
+						if (confirm('삭제하시겠습니까?')) {
+							let ids = new Array;
+
+							for (let i = 0; i < checkRows.length; i++) {
+								ids.push(checkRows[i][pkFieldName]);
+							}
+
+							removeAjax(ids);
+						}
+					} else {
+						toastr.warning('체크된 행이 없습니다.', '체크 항목 없음.');
+					}
+				});
+
+				// 수정 input 변경
+				$('#edit_wrap').find('input').on('change', function (evt) {
+					let focusRowKey = instance.getFocusedCell().rowKey;
+					let idPrefix = 'e_';
+					let rowData = instance.getRow(focusRowKey);
+					let inputId = $(this).attr('id');
+					let propName = inputId.replace(idPrefix, '');
+
+					if ($(this).val() != rowData[propName]) {
+						if (!($(this).hasClass('bg-warning-subtle text-warning-emphasis'))) {
+							$(this).addClass('bg-warning-subtle text-warning-emphasis');
+						}
+					}
+				});
+
+				// 페이지 초기 처리
+				$('#btn_srch').trigger('click');
+
+			});
+
+
+		</script>
+	</th:block>
+</body>
+
+</html>

@@ -277,7 +277,8 @@
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link d-flex align-items-center gap-2 disabled" href="#"
+								<a class="nav-link d-flex align-items-center gap-2" 
+									th:classappend="${servletPath} == '/item_mng' ? 'active': ''" href="/item_mng"
 									aria-disabled="true">
 									<i class="fa-brands fa-product-hunt"></i>
 									품목 관리
