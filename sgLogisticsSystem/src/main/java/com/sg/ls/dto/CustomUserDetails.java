@@ -43,10 +43,24 @@ public class CustomUserDetails implements UserDetails {
 		return empDTO.getEmpId();
 	}
 	
-	public String getName() {
+	public String getEmpNm() {
 		
 		return empDTO.getEmpNm();
 	}
 	
-
+	public String getRankCd() {
+		return empDTO.getRankCd();
+	}
+	
+	public String getRankNm() {
+		return empDTO.getRankNm();
+	}
+	
+	public String getDeptCd() {
+		return empDTO.getDeptCd();
+	}
+	
+	public String getDeptNm() {
+		return empDTO.getDeptNm();
+	}
 }

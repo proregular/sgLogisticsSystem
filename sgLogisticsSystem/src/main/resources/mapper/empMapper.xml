@@ -4,7 +4,13 @@
 
 <mapper namespace="Emp">
 	<select id="login" resultType="emp">
-		SELECT * FROM semp WHERE emp_id=#{id}
+		SELECT *, t2.dept_nm, t3.rank_nm
+		FROM semp t1 
+		LEFT JOIN sdept t2 
+		ON t1.dept_cd = t2.dept_cd  
+		LEFT JOIN srank t3
+		ON	t1.rank_cd = t3.rank_cd
+		WHERE emp_id=#{id}
 	</select>
 	
 	<insert id="save" parameterType="emp">

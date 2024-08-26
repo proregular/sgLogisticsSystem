@@ -17,7 +17,7 @@
 	<style>
 		/*
 	   	  * Navbar
-	   	  */
+	   	*/
 
 		.navbar-brand {
 			padding-top: .75rem !important;
@@ -155,8 +155,11 @@
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	<header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
 		<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/dashboard">물류관리시스템</a>
-		<span class="col-md-3 col-lg-2 me-0 px-3 fs-6   text-secondary-emphasis text-end"><span class="text-white"
-				th:text="${#authentication.principal.name}"></span>님 환영합니다.</span>
+		<span class="col-md-3 col-lg-2 me-0 px-3 fs-6   text-secondary-emphasis text-end">
+			<span class="text-white" th:text="${#authentication.principal.empNm}"></span>
+			(<span class="text-white" th:text="${#authentication.principal.rankNm}"></span>)
+			님 환영합니다.
+		</span>
 	</header>
 
 	<div class="container-fluid">
@@ -175,7 +178,7 @@
 								<a class="nav-link d-flex align-items-center gap-2"
 									th:classappend="${servletPath} == '/dashboard' ? 'active': ''" aria-current="page"
 									href="/dashboard">
-									<i class="fa-brands fa-product-hunt"></i>
+									<i class="fa-solid fa-chart-line"></i>
 									대쉬보드
 								</a>
 							</li>
@@ -189,21 +192,21 @@
 							<li class="nav-item">
 								<a class="nav-link d-flex align-items-center gap-2 disabled" href="#"
 									aria-disabled="true">
-									<i class="fa-brands fa-product-hunt"></i>
+									<i class="fa-solid fa-boxes-stacked"></i>
 									입고 등록
 								</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link d-flex align-items-center gap-2 disabled" href="#"
 									aria-disabled="true">
-									<i class="fa-solid fa-user-pen"></i>
+									<i class="fa-solid fa-clipboard-check"></i>
 									입고 검수
 								</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link d-flex align-items-center gap-2 disabled" href="#"
 									aria-disabled="true">
-									<i class="fa-solid fa-warehouse"></i>
+									<i class="fa-solid fa-people-carry-box"></i>
 									적재 등록
 								</a>
 							</li>
@@ -219,21 +222,21 @@
 							<li class="nav-item">
 								<a class="nav-link d-flex align-items-center gap-2 disabled" href="#"
 									aria-disabled="true">
-									<i class="fa-brands fa-product-hunt"></i>
+									<i class="fa-solid fa-boxes-packing"></i>
 									피킹 등록
 								</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link d-flex align-items-center gap-2 disabled" href="#"
 									aria-disabled="true">
-									<i class="fa-solid fa-user-pen"></i>
+									<i class="fa-solid fa-clipboard-check"></i>
 									출고 검수
 								</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link d-flex align-items-center gap-2 disabled" href="#"
 									aria-disabled="true">
-									<i class="fa-solid fa-warehouse"></i>
+									<i class="fa-solid fa-right-from-bracket"></i>
 									출고 등록
 								</a>
 							</li>
@@ -249,14 +252,14 @@
 							<li class="nav-item">
 								<a class="nav-link d-flex align-items-center gap-2 disabled" href="#"
 									aria-disabled="true">
-									<i class="fa-brands fa-product-hunt"></i>
+									<i class="fa-brands fa-buromobelexperte"></i>
 									재고이동
 								</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link d-flex align-items-center gap-2 disabled" href="#"
 									aria-disabled="true">
-									<i class="fa-solid fa-user-pen"></i>
+									<i class="fa-solid fa-sliders"></i>
 									재고 조정
 								</a>
 							</li>
@@ -277,7 +280,7 @@
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link d-flex align-items-center gap-2" 
+								<a class="nav-link d-flex align-items-center gap-2"
 									th:classappend="${servletPath} == '/item_mng' ? 'active': ''" href="/item_mng"
 									aria-disabled="true">
 									<i class="fa-brands fa-product-hunt"></i>

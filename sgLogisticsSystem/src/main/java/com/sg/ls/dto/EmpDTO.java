@@ -13,5 +13,7 @@ public class EmpDTO {
 	private String empNm;
 	private String empRole;
 	private String rankCd;
+	private String rankNm;
 	private String deptCd;
+	private String deptNm;
 }

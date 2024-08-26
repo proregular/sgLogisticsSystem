@@ -10,6 +10,7 @@ import com.sg.ls.dto.CustomUserDetails;
 import com.sg.ls.dto.EmpDTO;
 import com.sg.ls.repository.EmpRepository;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -25,6 +26,7 @@ public class CustomUserDetailService implements UserDetailsService {
 		
 		if(empData != null) {
 			System.out.println("성공");
+			
 			return new CustomUserDetails(empData);
 		} else {
 			throw new UsernameNotFoundException("사용자가 존재하지 않습니다.");
