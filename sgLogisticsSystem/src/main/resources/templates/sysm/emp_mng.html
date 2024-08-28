@@ -7,7 +7,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://uicdn.toast.com/grid/latest/tui-grid.css" />
-	<title>품목 관리</title>
+	<title>사원 관리</title>
 </head>
 
 <body>
@@ -17,7 +17,7 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="exampleModalLabel">품목 추가</h1>
+						<h1 class="modal-title fs-5" id="exampleModalLabel">사원 추가</h1>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body" id="modal_add">
@@ -26,49 +26,96 @@
 								<div class="col">
 									<div class="input-group">
 										<span class="input-group-text"><span style="color: red;">*
-												&nbsp;</span>품목코드</span>
-										<input id="itemCd" type="text" class="form-control" maxlength="8"
-											placeholder="영문 또는 숫자 8자리">
+												&nbsp;</span>사원아이디</span>
+										<input id="empId" type="text" class="form-control" maxlength="4"
+											placeholder="영문 또는 숫자 20자리">
 									</div>
 								</div>
 
-								<div class="col-8">
+								<div class="col">
 									<div class="input-group">
 										<span class="input-group-text"><span style="color: red;">*
-												&nbsp;</span>품목명</span>
-										<input id="itemNm" type="text" class="form-control" maxlength="30"
-											placeholder="30자리 이하 품목명">
+												&nbsp;</span>사원명</span>
+										<input id="empNm" type="text" class="form-control" maxlength="30"
+											placeholder="30자리 이하 사원명">
 									</div>
 								</div>
 							</div>
+
 							<div class="row mb-4">
 								<div class="col">
 									<div class="input-group">
-										<span class="input-group-text">규격</span>
-										<input id="itemSd" type="text" class="form-control" maxlength="10"
-											placeholder="10자리 이하 규격">
+										<span class="input-group-text"><span style="color: red;">*
+												&nbsp;</span>비밀번호</span>
+										<input id="empPw" type="password" class="form-control"
+											pattern="/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/"
+											maxlength="30" placeholder="30자리 이하 비밀번호">
 									</div>
 								</div>
 
 								<div class="col">
 									<div class="input-group">
-										<span class="input-group-text">단위</span>
-										<input id="itemDc" type="text" class="form-control" maxlength="10"
-											placeholder="10자리 이하 단위">
+										<span class="input-group-text"><span style="color: red;">*
+												&nbsp;</span>비밀번호 확인</span>
+										<input id="chk_empPw" type="password" class="form-control"
+											pattern="/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/"
+											maxlength="30" placeholder="30자리 이하 비밀번호 확인">
 									</div>
 								</div>
 							</div>
+
 							<div class="row mb-4">
-								<div class="col">
+								<div class="col-4">
 									<div class="input-group">
-										<span class="input-group-text">품목 구분</span>
-										<select id="itemFg" class="form-select">
-											<option value="0" selected>원재료</option>
-											<option value="1">부재료</option>
-											<option value="2">제품</option>
-											<option value="3">반제품</option>
-											<option value="4">상품</option>
+										<span class="input-group-text"><span style="color: red;">*
+												&nbsp;</span>권한</span>
+										<select id="empRole" class="form-select">
+											<option value="ROLE_USER" selected>일반 사용자</option>
+											<option value="ROLE_ADMIN">관리자</option>
 										</select>
+									</div>
+								</div>
+
+								<div class="col-4">
+									<div class="input-group">
+										<span class="input-group-text"><span style="color: red;">*
+												&nbsp;</span>직급</span>
+										<select id="rankCd" class="form-select"></select>
+									</div>
+								</div>
+							</div>
+
+							<div class="row mb-4">
+								<div class="col-6">
+									<div class="input-group">
+										<span class="input-group-text"><span style="color: red;">*
+												&nbsp;</span>부서</span>
+										<select id="deptCd" class="form-select"></select>
+									</div>
+								</div>
+
+								<div class="col-4">
+									<div class="input-group">
+										<span class="input-group-text">입사일</span>
+										<input id="ipsaDt" type="date" class="form-control" placeholder="입사일">
+									</div>
+								</div>
+							</div>
+
+							<div class="row mb-4">
+								<div class="col-6">
+									<div class="input-group">
+										<span class="input-group-text">전화번호</span>
+										<input id="tel" type="text" class="form-control" pattern="^[0-9]+$"
+											maxlength="11" placeholder="'-'을 제외한 숫자 11자리">
+									</div>
+								</div>
+
+								<div class="col-6">
+									<div class="input-group">
+										<span class="input-group-text">이메일</span>
+										<input id="email" type="email" class="form-control" pattern=".+@example\.com"
+											maxlength="255" placeholder="이메일 ex) jumoney1012@gmail.com">
 									</div>
 								</div>
 							</div>
@@ -83,10 +130,9 @@
 				</div>
 			</div>
 		</div>
-
 		<div
 			class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-			<h1 class="h2">품목 관리</h1>
+			<h1 class="h2">사원 관리</h1>
 			<div class="btn-toolbar mb-2 mb-md-0">
 				<div class="d-flex me-2 gap-3">
 					<button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
@@ -100,16 +146,16 @@
 		<div>
 			<div class="row p-2 mb-3 align-items-center border rounded">
 				<div class="col-auto">
-					<label for="srch_item_nm" class="col-form-label">품목명</label>
+					<label for="srch_emp_nm" class="col-form-label">사원명</label>
 				</div>
 				<div class="col-auto">
-					<input type="text" class="form-control form-control-sm" id="srch_item_nm" placeholder="품목명">
+					<input type="text" class="form-control form-control-sm" id="srch_emp_nm" placeholder="사원명">
 				</div>
 				<div class="col-auto">
-					<label for="srch_item_cd" class="col-form-label">품목코드</label>
+					<label for="srch_emp_id" class="col-form-label">사원아이디</label>
 				</div>
 				<div class="col-auto">
-					<input type="text" class="form-control form-control-sm" id="srch_item_cd" placeholder="품목코드">
+					<input type="text" class="form-control form-control-sm" id="srch_emp_id" placeholder="사원아이디">
 				</div>
 
 				<div class="col" style="margin-left:auto;">
@@ -119,7 +165,7 @@
 			</div>
 			<div class="row">
 				<div class="col-5">
-					<div id="grid"></div>
+					<div id="tuiGrid"></div>
 				</div>
 				<div id="edit_wrap" class="col invisible">
 					<div class="row mb-4 justify-content-end">
@@ -132,49 +178,75 @@
 					<div class="row mb-4">
 						<div class="col">
 							<div class="input-group">
-								<span class="input-group-text">품목코드</span>
-								<input id="e_itemCd" type="text" class="form-control" maxlength="8"
-									placeholder="영문 또는 숫자 8자리" disabled readonly>
+								<span class="input-group-text"><span style="color: red;">*
+										&nbsp;</span>사원아이디</span>
+								<input id="e_empId" type="text" class="form-control" maxlength="4"
+									placeholder="영문 또는 숫자 20자리" disabled readonly>
 							</div>
 						</div>
 
 						<div class="col">
 							<div class="input-group">
 								<span class="input-group-text"><span style="color: red;">*
-										&nbsp;</span>품목명</span>
-								<input id="e_itemNm" type="text" class="form-control" maxlength="30"
-									placeholder="30자리 이하 품목명">
+										&nbsp;</span>사원명</span>
+								<input id="e_empNm" type="text" class="form-control" maxlength="30"
+									placeholder="30자리 이하 사원명">
 							</div>
 						</div>
 					</div>
+
 					<div class="row mb-4">
-						<div class="col-7">
+						<div class="col-4">
 							<div class="input-group">
-								<span class="input-group-text">규격</span>
-								<input id="e_itemSd" type="text" class="form-control" maxlength="10"
-									placeholder="'-'을 제외한 숫자 10자리">
+								<span class="input-group-text"><span style="color: red;">*
+										&nbsp;</span>권한</span>
+								<select id="e_empRole" class="form-select">
+									<option value="ROLE_USER" selected>일반 사용자</option>
+									<option value="ROLE_ADMIN">관리자</option>
+								</select>
 							</div>
 						</div>
 
-						<div class="col-5">
+						<div class="col-4">
 							<div class="input-group">
-								<span class="input-group-text">단위</span>
-								<input id="e_itemDc" type="text" class="form-control" maxlength="10"
-									placeholder="10자리 이하 대표자명">
+								<span class="input-group-text"><span style="color: red;">*
+										&nbsp;</span>직급</span>
+								<select id="e_rankCd" class="form-select"></select>
 							</div>
 						</div>
 					</div>
+
 					<div class="row mb-4">
-						<div class="col">
+						<div class="col-6">
 							<div class="input-group">
-								<span class="input-group-text">품목 구분</span>
-								<select id="e_itemFg" class="form-select">
-									<option value="0" selected>원재료</option>
-									<option value="1">부재료</option>
-									<option value="2">제품</option>
-									<option value="3">반제품</option>
-									<option value="4">상품</option>
-								</select>
+								<span class="input-group-text"><span style="color: red;">*
+										&nbsp;</span>부서</span>
+								<select id="e_deptCd" class="form-select"></select>
+							</div>
+						</div>
+
+						<div class="col-4">
+							<div class="input-group">
+								<span class="input-group-text">입사일</span>
+								<input id="e_ipsaDt" type="date" class="form-control" placeholder="입사일">
+							</div>
+						</div>
+					</div>
+
+					<div class="row mb-4">
+						<div class="col-6">
+							<div class="input-group">
+								<span class="input-group-text">전화번호</span>
+								<input id="e_tel" type="text" class="form-control" pattern="^[0-9]+$" maxlength="11"
+									placeholder="'-'을 제외한 숫자 11자리">
+							</div>
+						</div>
+
+						<div class="col-6">
+							<div class="input-group">
+								<span class="input-group-text">이메일</span>
+								<input id="e_email" type="email" class="form-control" pattern=".+@example\.com"
+									maxlength="255" placeholder="이메일 ex) jumoney1012@gmail.com">
 							</div>
 						</div>
 					</div>
@@ -183,58 +255,82 @@
 		</div>
 	</main>
 	<th:block layout:fragment="script">
-		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		<script src="https://uicdn.toast.com/grid/latest/tui-grid.js"></script>
 		<script type="text/javascript">
 			let objSrch = {};
-			let ajaxApiUrl = "/api/item";
-			let pkFieldName = "itemCd";
+			let ajaxApiUrl = "/api/emp";
+			let pkFieldName = "empId";
+			let listDept = cmnSelectListAjax('dept');
+			let listRank = cmnSelectListAjax('rank');
 
 			const Grid = tui.Grid;
 
 			Grid.applyTheme('striped');
 
-			const instance = new Grid({
-				el: document.getElementById('grid'), // Container element
+			const myGrid = new Grid({
+				el: document.getElementById('tuiGrid'), // Container element
 				bodyHeight: 550,
 				rowHeaders: ['checkbox'],
 				selectionUnit: 'row',
 				draggable: false,
 				columns: [
 					{
-						header: '품목 코드',
-						name: 'itemCd'
+						header: '사원 아이디',
+						name: 'empId'
 					},
 					{
-						header: '품목 명',
-						name: 'itemNm'
+						header: '사원 명',
+						name: 'empNm'
 					},
 					{
-						header: '규격',
-						name: 'itemSd',
+						header: '직급',
+						name: 'rankNm'
 					},
 					{
-						header: '단위',
-						name: 'itemDc',
+						header: '부서',
+						name: 'deptNm'
+					},
+					{
+						header: '권한',
+						name: 'empRole',
 						hidden: true
 					},
 					{
-						header: '품목구분',
-						name: 'itemFg',
+						header: '직책코드',
+						name: 'rankCd',
+						hidden: true,
+					},
+					{
+						header: '부서코드',
+						name: 'deptCd',
+						hidden: true,
+					},
+					{
+						header: '전화번호',
+						name: 'tel',
 						hidden: true,
 						validation: {
 							dataType: "number"
 						}
+					},
+					{
+						header: '입사일',
+						name: 'ipsaDt',
+						hidden: true,
 					}
 				]
 			});
 
 			let obj_ajax = {
-				itemCd: null,
-				itemNm: null,
-				itemSd: "",
-				itemDc: "",
-				itemFg: null
+				empId: null,
+				empPw: null,
+				empNm: null,
+				empRole: null,
+				rankCd: null,
+				deptCd: null,
+				tel: "",
+				email: "",
+				ipsaDt: null,
 			}
 
 			toastr.options = {
@@ -259,7 +355,7 @@
 				메소드 선언
 			*/
 
-			// 품목 추가 Ajax 통신
+			// 사원 추가 Ajax 통신
 			function addAjax(obj_ajax) {
 				$.ajax({
 					type: 'POST',
@@ -287,7 +383,7 @@
 				});
 			}
 
-			// 품목 조회 Ajax 통신
+			// 사원 조회 Ajax 통신
 			function listAjax(objSrch, selKey = "") {
 				let urlStr = "";
 				let queryString = '';
@@ -317,7 +413,7 @@
 					dataType: 'json',
 					async: false,
 					success: function (result) {
-						instance.resetData(result);
+						myGrid.resetData(result);
 
 						$('#edit_wrap').find('input').val('');
 
@@ -325,19 +421,19 @@
 							$('#edit_wrap').addClass('invisible');
 						}
 
-						let rowData = instance.getData();
+						let rowData = myGrid.getData();
 
 						if (selKey != "") {
 							for (let i = 0; i < rowData.length; i++) {
 								console.log(rowData[i][pkFieldName], selKey)
 								if (rowData[i][pkFieldName] == selKey) {
-									instance.focus(rowData[i].rowKey, pkFieldName, true);
+									myGrid.focus(rowData[i].rowKey, pkFieldName, true);
 
 									break;
 								}
 							}
 						} else if (rowData.length > 0) {
-							instance.focus(0, pkFieldName, true);
+							myGrid.focus(0, pkFieldName, true);
 						}
 					},
 					error: function (e) {
@@ -346,8 +442,8 @@
 				});
 			}
 
-			// 품목 수정 Ajax 통신
-			function tradeModifyAjax(obj_ajax, key) {
+			// 사원 수정 Ajax 통신
+			function empModifyAjax(obj_ajax, key) {
 				let urlStr = ajaxApiUrl + '/' + key;
 
 				$.ajax({
@@ -373,7 +469,7 @@
 				});
 			}
 
-			// 품목 삭제 Ajax 통신
+			// 사원 삭제 Ajax 통신
 			function removeAjax(arr_ids) {
 				$.ajax({
 					type: 'POST',
@@ -403,19 +499,13 @@
 			// 그리드 이벤트 정의
 
 			// 테이블에서 선택 영역을 변경한 경우
-			instance.on('focusChange', (evt) => {
+			myGrid.on('focusChange', (evt) => {
 				if (evt.rowKey != evt.prevRowKey) {
 					let idPrefix = '#e_';
-					let rowData = instance.getRow(evt.rowKey);
-					let tag_id = "";
+					let rowData = myGrid.getRow(evt.rowKey);
 
 					for (key in rowData) {
-						tag_id = idPrefix + key;
-						if ($(tag_id).prop("tagName") == 'select') {
-							$(idPrefix + key).val(rowData[key]).prop("selected", true);
-						} else {
-							$(idPrefix + key).val(rowData[key]);
-						}
+						$(idPrefix + key).val(rowData[key]);
 					}
 
 					$('#edit_wrap').find('input').removeClass('bg-warning-subtle text-warning-emphasis');
@@ -442,34 +532,35 @@
 
 				// 모달의 추가 버튼
 				$('#btn_add').on('click', function (evt) {
-					// 품목 객체 생성
-					let inputs = $('#modal_add').find('input, select');
+					// 사원 객체 생성
+					let inputs = $('#modal_add').find('input');
 					let prop_name = "";
 
 					for (let i = 0; i < inputs.length; i++) {
 						prop_name = $(inputs[i]).attr('id');
+
 						obj_ajax[prop_name] = $('#' + prop_name).val();
 					}
-					console.log(obj_ajax);
+
 					addAjax(obj_ajax);
 				});
 
 				// 조회 버튼
 				$('#btn_srch').on('click', function (evt) {
-					let srch_item_nm = $('#srch_item_nm').val();
-					let srch_item_cd = $('#srch_item_cd').val();
+					let srch_tr_nm = $('#srch_tr_nm').val();
+					let srch_tr_cd = $('#srch_tr_cd').val();
 
-					objSrch.srch_item_nm = srch_item_nm;
-					objSrch.srch_item_cd = srch_item_cd;
+					objSrch.srch_tr_nm = srch_tr_nm;
+					objSrch.srch_tr_cd = srch_tr_cd;
 
 					listAjax(objSrch);
 				});
 
 				// 수정 버튼
 				$('#btn_modify').on('click', function (evt) {
-					let focusRowKey = instance.getFocusedCell().rowKey;
+					let focusRowKey = myGrid.getFocusedCell().rowKey;
 					let idPrefix = '#e_';
-					let rowData = instance.getRow(focusRowKey);
+					let rowData = myGrid.getRow(focusRowKey);
 					let changeRowData = {};
 
 					for (key in obj_ajax) {
@@ -487,7 +578,7 @@
 								obj_ajax[key] = rowData[key];
 							}
 
-							tradeModifyAjax(obj_ajax, obj_ajax[pkFieldName]);
+							empModifyAjax(obj_ajax, obj_ajax[pkFieldName]);
 						}
 					} else {
 						toastr.warning('수정사항이 없습니다.', '수정사항 없음.')
@@ -496,7 +587,7 @@
 
 				// 삭제 버튼
 				$('#btn_remove').on('click', function (evt) {
-					let checkRows = instance.getCheckedRows();
+					let checkRows = myGrid.getCheckedRows();
 
 					if (checkRows.length > 0) {
 						if (confirm('삭제하시겠습니까?')) {
@@ -515,9 +606,9 @@
 
 				// 수정 input 변경
 				$('#edit_wrap').find('input').on('change', function (evt) {
-					let focusRowKey = instance.getFocusedCell().rowKey;
+					let focusRowKey = myGrid.getFocusedCell().rowKey;
 					let idPrefix = 'e_';
-					let rowData = instance.getRow(focusRowKey);
+					let rowData = myGrid.getRow(focusRowKey);
 					let inputId = $(this).attr('id');
 					let propName = inputId.replace(idPrefix, '');
 
@@ -527,6 +618,12 @@
 						}
 					}
 				});
+
+				// 셀렉트 목록 설정
+				cmnSetSelect('#deptCd', 'deptCd', 'deptNm', listDept);
+				cmnSetSelect('#e_deptCd', 'deptCd', 'deptNm', listDept);
+				cmnSetSelect('#rankCd', 'rankCd', 'rankNm', listRank);
+				cmnSetSelect('#e_rankCd', 'rankCd', 'rankNm', listRank);
 
 				// 페이지 초기 처리
 				$('#btn_srch').trigger('click');

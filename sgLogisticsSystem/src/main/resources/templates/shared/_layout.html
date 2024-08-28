@@ -153,6 +153,7 @@
 		crossorigin="anonymous"></script>
 	<!-- toastr js 라이브러리 -->
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script th:src="@{common.js}"></script>
 	<header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
 		<a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/dashboard">물류관리시스템</a>
 		<span class="col-md-3 col-lg-2 me-0 px-3 fs-6   text-secondary-emphasis text-end">
@@ -302,8 +303,8 @@
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link d-flex align-items-center gap-2 disabled" href="#"
-									aria-disabled="true">
+								<a class="nav-link d-flex align-items-center gap-2"
+									th:classappend="${servletPath} == '/emp_mng' ? 'active': ''" href="/emp_mng">
 									<i class="fa-solid fa-user-pen"></i>
 									사원 관리
 								</a>

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.sg.ls.service.EmpService;
+import com.sg.ls.service.LoginService;
 import com.sg.ls.service.SecurityService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,5 +57,12 @@ public class ViewController {
 		model.addAttribute("servletPath", request.getServletPath());
 		
 		return "sysm/item_mng";
+	}
+	
+	@GetMapping("/emp_mng")
+	public String empMngP(Model model, HttpServletRequest request) {
+		model.addAttribute("servletPath", request.getServletPath());
+		
+		return "sysm/emp_mng";
 	}
 }
